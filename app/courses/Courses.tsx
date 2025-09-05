@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Star, Users, Clock, Award, Heart, Zap, Moon, Sun, Calendar, Compass, Sparkles, Waves, Leaf } from 'lucide-react';
+import { Star, Clock, Award, Heart, Zap,  Sun, Sparkles, Waves, Leaf } from 'lucide-react';
 import CheckoutButton from '../components/CheckoutButton';
 
 interface Service {
