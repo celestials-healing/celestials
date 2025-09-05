@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f6cf92;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+
+}
+
+/* Petrona font declarations */
+@font-face {
+  font-family: 'Petrona';
+  src: url('/fonts/petrona-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Petrona';
+  src: url('/fonts/petrona-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Petrona';
+  src: url('/fonts/petrona-semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Petrona';
+  src: url('/fonts/petrona-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/**
+  Requires Houdini support
+*/
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gradient-border-wrapper {
+  position: relative;
+  z-index: 0;
+  border-radius: 9999px;
+  padding: 1.25rem; /* Adjust this for border thickness */
+  background: conic-gradient(
+    from var(--gradient-angle),
+    #f6a192,
+    #f6b092,
+    #f6c492,
+    #f6cf92,
+    #f6c492,
+    #f6b092,
+    #f6a192
+  );
+  animation: spin-border 2s linear infinite;
+}
+
+
+
+
+
+@keyframes spin-border {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+
+
+@font-face {
+  font-family: 'Abbasy Calligraphy Typeface';
+  src: url('/fonts/AbbasyCalligraphyTypeface.woff2') format('woff2'),
+       url('/fonts/AbbasyCalligraphyTypeface.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bolina';
+  src: url('/fonts/Bolina.woff2') format('woff2'),
+       url('/fonts/Bolina.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LT Perfume';
+  src: url('/fonts/LTPerfume-Regular.woff2') format('woff2'),
+       url('/fonts/LTPerfume-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Love Script';
+  src: url('/fonts/Lovescript.woff2') format('woff2'),
+       url('/fonts/Lovescript.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'a Antara Distance';
+  src: url('/fonts/aAntaraDistance.woff2') format('woff2'),
+       url('/fonts/aAntaraDistance.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Champignon Alt Swash';
+  src: url('/fonts/ChampignonAltSwash.woff2') format('woff2'),
+       url('/fonts/ChampignonAltSwash.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Master Of Break';
+  src: url('/fonts/MasterOfBreak.woff2') format('woff2'),
+       url('/fonts/MasterOfBreak.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Selima';
+  src: url('/fonts/Selima.woff2') format('woff2'),
+       url('/fonts/Selima.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MagicSound';
+  src: url('/fonts/MagicSound.woff2') format('woff2'),
+       url('/fonts/MagicSound.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/PlayfairDisplay-Italic.woff2') format('woff2'),
+       url('/fonts/PlayfairDisplay-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  src: url('/fonts/SourceCodePro-ExtraLightItalic.woff2') format('woff2'),
+       url('/fonts/SourceCodePro-ExtraLightItalic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
