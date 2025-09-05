@@ -497,9 +497,10 @@ export default function AstrologyServicesShowcase() {
             </span>
           </h1>
           <p className="text-lg text-[#4A1A11] max-w-3xl mx-auto leading-relaxed">
-            Discover the secrets of your destiny through ancient wisdom and modern astrological practices. 
-            Our comprehensive services guide you through life's journey with celestial insights.
-          </p>
+  Discover the secrets of your destiny through ancient wisdom and modern astrological practices. 
+  Our comprehensive services guide you through life&apos;s journey with celestial insights.
+</p>
+
         </div>
 
         {/* Category Navigation */}

@@ -2,7 +2,7 @@
 import Header3 from './header3';
 import Layout from '../components/layout';
 // import EnrollPage from '../components/enroll';
-import Team from '../components/team';
+// import Team from '../components/team';
 import WellnessLandingPage from '../components/video';
 // import Enroll2 from '../components/courses';
 import CourseSection from '../components/CourseSection';
