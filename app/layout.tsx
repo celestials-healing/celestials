@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from './components/Footer';
  import Navbar from './components/navbar';
- import MusicPlayer from "./components/MusicPlayer";
+//  import MusicPlayer from "./components/MusicPlayer";
 
 // Add celestial font variable
 const celestialFont = {
@@ -38,7 +38,7 @@ export default function RootLayout({
         <Navbar/>
         
         {children}
-        <MusicPlayer />
+        {/* <MusicPlayer /> */}
         <Footer/>
       </body>
     </html>

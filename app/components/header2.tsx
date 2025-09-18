@@ -141,8 +141,8 @@ export default function ResponsiveHero() {
         <h1
           className="text-5xl md:text-6xl font-bold text-[#4D5557] leading-tight text-center mb-6 absolute top-16"
           style={{
-            fontFamily: 'Master Of Break',
-            fontWeight: "400",
+            fontFamily: 'Playfair Display',
+            fontWeight: 900,
             width: "400px",
           }}
         >
@@ -153,8 +153,8 @@ export default function ResponsiveHero() {
         <p
           className="text-3xl md:text-2xl text-[#4A1A11] text-center mb-8 max-w-2xl absolute bottom-10 leading-tight bg-opacity-0.6 p-4 rounded"
           style={{
-            fontFamily: 'a Antara Distance',
-            fontWeight: "400",
+            
+            fontWeight: 500,
           }}
         >
           Welcome to our serene space dedicated to Reiki certification. Explore our courses designed to empower your spiritual journey and enhance your healing abilities.
