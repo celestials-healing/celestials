@@ -44,9 +44,9 @@ const ReikiFAQs = () => {
         <div className="md:w-1/3">
           <h1 className="text-6xl font-bold mb-4" style={{ fontFamily: "'CelestialFont', Petrona, serif",}}>FAQs</h1>
           <p className="mb-6 text-[#4A1A11]">Find answers to your questions about our Reiki certification course and related services.</p>
-          <button className="border border-[#4A1A11] text-white py-2 px-6 bg-[#4A1A11] hover:bg-gray-800 transition-colors">
+          {/* <button className="border border-[#4A1A11] text-white py-2 px-6 bg-[#4A1A11] hover:bg-gray-800 transition-colors">
             Contact
-          </button>
+          </button> */}
         </div>
         
         <div className="md:w-2/3">

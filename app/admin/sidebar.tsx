@@ -6,8 +6,8 @@ import {
   ChartBarIcon, 
   ShoppingBagIcon, 
   InboxIcon, 
-  DocumentTextIcon, 
-  QuestionMarkCircleIcon, 
+  // DocumentTextIcon, 
+  // QuestionMarkCircleIcon, 
   UserIcon, 
   ChevronRightIcon,
   Bars3Icon,
@@ -133,13 +133,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, showToggleButton =
           <SidebarItem icon={<InboxIcon className="w-6 h-6" />} label="Courses" href="/admin/Courses" collapsed={collapsed} />
         </nav>
         
-        {!collapsed && <div className="mt-8 px-4 py-2 text-sm text-gray-500">FAQs</div>}
-        {collapsed && <div className="mt-8 border-t border-gray-200 pt-4"></div>}
+        {/* {!collapsed && <div className="mt-8 px-4 py-2 text-sm text-gray-500">FAQs</div>}
+        {collapsed && <div className="mt-8 border-t border-gray-200 pt-4"></div>} */}
         
-        <nav className="px-2 space-y-1">
+        {/* <nav className="px-2 space-y-1">
           <SidebarItem icon={<DocumentTextIcon className="w-6 h-6" />} label="Resources" href="/resources" collapsed={collapsed} />
           <SidebarItem icon={<QuestionMarkCircleIcon className="w-6 h-6" />} label="Help" href="/help" collapsed={collapsed} />
-        </nav>
+        </nav> */}
         
         <div className={`absolute bottom-0 ${collapsed ? 'w-20' : 'w-64'} border-t border-[#4A1A11]`}>
           <div className={`flex items-center p-4 ${collapsed ? 'justify-center' : ''}`}>

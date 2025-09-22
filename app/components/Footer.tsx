@@ -32,10 +32,10 @@ const Footer = () => {
             <div>
             <h4 className="font-bold mb-4">Our Offerings</h4>
   <ul className="space-y-3">
-    <li><Link href="/raiki-courses" className="text-sm hover:underline">Raiki Courses</Link></li>
-    <li><Link href="/astrology-insights" className="text-sm hover:underline">Astrology Insights</Link></li>
-    <li><Link href="/yoga-practices" className="text-sm hover:underline">Yoga Practices</Link></li>
-    <li><Link href="/tarot-readings" className="text-sm hover:underline">Tarot Readings</Link></li>
+    <li><Link href="/courses" className="text-sm hover:underline">Reiki </Link></li>
+    <li><Link href="/Astrology" className="text-sm hover:underline">Astrology </Link></li>
+    <li><Link href="/Yoga" className="text-sm hover:underline">Yoga </Link></li>
+    {/* <li><Link href="/tarot-readings" className="text-sm hover:underline">Tarot Readings</Link></li> */}
     
   </ul>
             </div>
@@ -44,10 +44,10 @@ const Footer = () => {
             <div>
             <h4 className="font-bold mb-4">Connect With Us</h4>
   <ul className="space-y-3">
-    <li><Link href="/contact" className="text-sm hover:underline">Contact Us</Link></li>
+    {/* <li><Link href="/contact" className="text-sm hover:underline">Contact Us</Link></li> */}
     <li><Link href="/about" className="text-sm hover:underline">About Us</Link></li>
    
-    <li><Link href="/faqs" className="text-sm hover:underline">FAQs</Link></li>
+    {/* <li><Link href="/faqs" className="text-sm hover:underline">FAQs</Link></li> */}
   </ul>
             </div>
           </div>
@@ -80,12 +80,12 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-t border-[#4D5557] pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-6 mb-4 md:mb-0">
+            {/* <div className="flex items-center space-x-6 mb-4 md:mb-0">
               <p className="text-sm">© 2025 Relume. All rights reserved.</p>
               <Link href="/privacy-policy" className="text-sm hover:underline">Privacy Policy</Link>
               <Link href="/terms" className="text-sm hover:underline">Terms of Service</Link>
               <Link href="/cookies" className="text-sm hover:underline">Cookies Settings</Link>
-            </div>
+            </div> */}
             <div className="flex items-center space-x-4">
               <Link href="https://facebook.com" className="text-gray-800 hover:text-gray-600">
                 <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

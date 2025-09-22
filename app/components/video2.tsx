@@ -64,7 +64,7 @@ const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
 
 export default function WellnessLandingPage2() {
   // You can replace this URL with your YouTube or Google Drive video link
-  const [videoUrl] = useState<string>('https://www.youtube.com/watch?v=BrACkUh7sA0');
+  const [videoUrl] = useState<string>('');
   
   return (
     <div className=" bg-white">

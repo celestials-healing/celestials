@@ -64,7 +64,7 @@ const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
 
 export default function WellnessLandingPage() {
   // You can replace this URL with your YouTube or Google Drive video link
-  const [videoUrl] = useState<string>('https://www.youtube.com/watch?v=BrACkUh7sA0');
+  const [videoUrl] = useState<string>('');
   
   return (
     <div className=" bg-white">
@@ -88,7 +88,7 @@ export default function WellnessLandingPage() {
                 yoga.
               </p>
               <div className="flex flex-wrap gap-4">
-              <Link href="/registerForm" className="inline-block border border-black px-8 py-3 font-medium bg-[#4A1A11] text-white">
+              <Link href="/Register" className="inline-block border border-black px-8 py-3 font-medium bg-[#4A1A11] text-white">
             Register
           </Link>
           <Link href="/about" className="inline-flex items-center gap-2 px-8 py-3 font-medium text-[#4A1A11]">

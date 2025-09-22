@@ -37,7 +37,7 @@ const Testimonial: NextPage = () => {
       img: testimonialImage,
       quote:
         "The instructors were incredibly knowledgeable and supportive throughout the entire certification process. I feel confident in my ability to practice Reiki professionally.",
-      name: "Sarah Williams",
+      name: "Durgesh Tiwari",
       role: "Holistic Practitioner",
     },
   ];

@@ -89,7 +89,7 @@ export default function Layout() {
       {/* CTA Section */}
       <section className="max-w-6xl mx-auto flex flex-col items-center">
         <div className="flex flex-wrap justify-center gap-4">
-          <Link href="/registerForm" className="inline-block border border-black px-8 py-3 font-medium bg-[#4A1A11]">
+          <Link href="/Register" className="inline-block border border-black px-8 py-3 font-medium bg-[#4A1A11]">
             Register
           </Link>
           <Link href="/about" className="inline-flex items-center gap-2 px-8 py-3 font-medium text-[#4A1A11]">
