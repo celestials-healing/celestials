@@ -1,8 +1,17 @@
 "use client";
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const Footer = () => {
+const router = useRouter();
+
+const handlePrivacyPolicyClick = (e: React.MouseEvent) => {
+  e.preventDefault();
+  router.push('/Privacy-Policy');
+};
+
+
   const [email, setEmail] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -71,7 +80,16 @@ const Footer = () => {
                 Subscribe
               </button>
             </form>
-            <p className="text-xs mt-2">By subscribing you agree to our Privacy Policy.</p>
+           <p className="text-xs mt-2">
+  By subscribing you agree to our{' '}
+  <span 
+    className="text-[#4D5557] underline cursor-pointer hover:text-[#32120b] transition-colors duration-200"
+    onClick={handlePrivacyPolicyClick}
+  >
+    Privacy Policy
+  </span>
+  .
+</p>
           </div>
         </div>
       </div>

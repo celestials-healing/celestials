@@ -80,9 +80,7 @@ export default function LoginPage() {
     router.push('/Register');
   };
 
-  const handleForgotPassword = () => {
-    router.push('/forgot-password');
-  };
+  
 
  
 
@@ -189,14 +187,7 @@ export default function LoginPage() {
                     Remember me
                   </label>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleForgotPassword}
-                  className="text-sm text-[#4D5557] hover:underline transition duration-300"
-                  style={{ fontFamily: 'Playfair Display' }}
-                >
-                  Forgot password?
-                </button>
+              
               </div>
 
               {/* Submit Button */}

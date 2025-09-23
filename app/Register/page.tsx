@@ -66,6 +66,11 @@ export default function SignUpPage() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handlePrivacyPolicyClick = (e: React.MouseEvent) => {
+  e.preventDefault(); // Prevent the label from triggering the checkbox
+  router.push('/Privacy-Policy');
+};
+
  const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   
@@ -98,7 +103,7 @@ export default function SignUpPage() {
 
 
   const handleSignInClick = () => {
-    router.push('/Login');
+    router.push('/login');
   };
 
   return (
@@ -242,18 +247,24 @@ export default function SignUpPage() {
               {/* Checkboxes */}
               <div className="space-y-3">
                 <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="agreeToTerms"
-                    name="agreeToTerms"
-                    checked={formData.agreeToTerms}
-                    onChange={handleInputChange}
-                    className="mt-1 h-4 w-4 text-[#4D5557] focus:ring-[#4D5557] border-[#f6d992] rounded"
-                  />
-                  <label htmlFor="agreeToTerms" className="ml-3 text-sm text-[#4A1A11]" style={{ fontFamily: 'Playfair Display' }}>
-                    I agree to the <span className="text-[#4D5557] underline cursor-pointer">Terms and Conditions</span> and <span className="text-[#4D5557] underline cursor-pointer">Privacy Policy</span>
-                  </label>
-                </div>
+  <input
+    type="checkbox"
+    id="agreeToTerms"
+    name="agreeToTerms"
+    checked={formData.agreeToTerms}
+    onChange={handleInputChange}
+    className="mt-1 h-4 w-4 text-[#4D5557] focus:ring-[#4D5557] border-[#f6d992] rounded"
+  />
+  <label htmlFor="agreeToTerms" className="ml-3 text-sm text-[#4A1A11]" style={{ fontFamily: 'Playfair Display' }}>
+    I agree to the{' '}
+    <span 
+      className="text-[#4D5557] underline cursor-pointer hover:text-[#32120b] transition-colors duration-200"
+      onClick={handlePrivacyPolicyClick}
+    >
+      Privacy Policy
+    </span>
+  </label>
+</div>
                 {errors.agreeToTerms && <p className="text-red-500 text-xs">{errors.agreeToTerms}</p>}
 
                 <div className="flex items-start">
