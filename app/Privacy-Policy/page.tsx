@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Mail, Phone, Shield, Eye, Users, Lock, Cookie, FileText, UserCheck, RefreshCw, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Mail, Phone, Shield, Eye, Users, Lock, Cookie, UserCheck, RefreshCw, MessageCircle } from 'lucide-react';
 
 export default function PrivacyPolicy() {
   const router = useRouter();
