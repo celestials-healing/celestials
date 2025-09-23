@@ -574,9 +574,7 @@ export default function AstrologyServicesShowcase() {
             Begin your journey of self-discovery with our expert astrologers. 
             Book your consultation today and unlock the mysteries of your cosmic path.
           </p>
-          <button className="px-8 py-4 bg-[#4D5557] text-white font-semibold rounded-full shadow-lg hover:bg-[#32120b] hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1">
-            Contact Celestials Team
-          </button>
+         
         </div>
       </div>
 

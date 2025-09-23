@@ -573,9 +573,7 @@ export default function ReikiServicesShowcase() {
             Experience the transformative power of Reiki healing. Whether seeking training, 
             personal healing, or spiritual growth, our certified masters are here to guide you.
           </p>
-          <button className="px-8 py-4 bg-[#4D5557] text-white font-semibold rounded-full shadow-lg hover:bg-[#32120b] hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1">
-            Contact Celestials Reiki Team
-          </button>
+          
         </div>
       </div>
 
