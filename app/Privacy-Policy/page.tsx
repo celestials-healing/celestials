@@ -262,8 +262,8 @@ export default function PrivacyPolicy() {
                   <div className="flex items-center">
                     <Phone className="w-5 h-5 text-[#4D5557] mr-3" />
                     <span className="text-[#4A1A11]">
-                      Phone: <a href="tel:+1234567890" className="text-[#4D5557] hover:underline font-semibold">
-                        +91 12345 67890
+                      Phone: <a href="tel:+7303089983" className="text-[#4D5557] hover:underline font-semibold">
+                        +91 7303089983
                       </a>
                     </span>
                   </div>
