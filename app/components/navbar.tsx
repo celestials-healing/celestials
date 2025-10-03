@@ -114,12 +114,7 @@ const Navbar = () => {
             <Link href="/" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
               Home Page
             </Link>
-            <Link href="/about" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
-              About Us
-            </Link>
-            {/* <Link href="/products" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
-              Products
-            </Link> */}
+           
 
             {/* Desktop Dropdown */}
             <div className="relative" ref={dropdownRef}>
@@ -156,6 +151,13 @@ const Navbar = () => {
                 </div>
               )}
             </div>
+
+             <Link href="/about" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
+              About Us
+            </Link>
+            <Link href="/ContactUs" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
+              Contact Us
+            </Link>
           </div>
 
           {/* Desktop Action Buttons */}
@@ -237,13 +239,13 @@ const Navbar = () => {
             >
               About Us
             </Link>
-            {/* <Link
-              href="/products"
+            <Link
+              href="/Contact Us"
               className="block text-lg font-medium text-[#4D5557] py-2 border-b border-gray-100"
               onClick={closeMobileMenu}
             >
-              Products
-            </Link> */}
+              Contact Us
+            </Link>
             <Link
               href="/courses"
               className="block text-lg font-medium text-[#4D5557] py-2 border-b border-gray-100"

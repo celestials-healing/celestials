@@ -5,10 +5,11 @@ import Layout from '../components/layout';
 // import Team from '../components/team';
 import WellnessLandingPage from '../components/video';
 // import Enroll2 from '../components/courses';
-import CourseSection from '../components/CourseSection';
+// import CourseSection from '../components/CourseSection';
 import ProductsSection from '../products/ProductsSection'; // ✅ Import
 import { Product } from '../types/product';
-import { Product as CourseProduct } from "../types/product2";
+// import { Product as CourseProduct } from "../types/product2";
+import Courses from "./courses"
 
 // ✅ Fetch products server-side
 async function getProducts(): Promise<Product[]> {
@@ -19,27 +20,31 @@ async function getProducts(): Promise<Product[]> {
   return data.products;
 }
 
-async function getCourses(): Promise<CourseProduct[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/courses`, {
-    cache: "no-store",
-  });
-  const data = await res.json();
-  return data.courses;
-}
+// async function getCourses(): Promise<CourseProduct[]> {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/courses`, {
+//     cache: "no-store",
+//   });
+//   const data = await res.json();
+//   return data.courses;
+// }
 
 // ✅ Server Component (since we are fetching directly here)
 export default async function Home() {
   const products = await getProducts();
-  const courses = await getCourses();
+  // const courses = await getCourses();
 
   return (
     <div>
       <Header3 />
       <Layout />
       {/* <EnrollPage /> */}
-      <CourseSection products={courses} 
+      {/* <CourseSection products={courses} 
       category="Yoga"
-      title="Yoga Offerings" />
+      title="Yoga Offerings" /> */}
+      <Courses />
+
+       <WellnessLandingPage />
+
       {/* 🔹 Product Section */}
           <ProductsSection 
       products={products} 
@@ -51,7 +56,7 @@ export default async function Home() {
       
      
 
-      <WellnessLandingPage />
+     
        
       {/* <Team /> */}
     </div>

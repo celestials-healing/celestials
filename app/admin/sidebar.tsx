@@ -6,7 +6,7 @@ import {
   ChartBarIcon, 
   ShoppingBagIcon, 
   InboxIcon, 
-  // DocumentTextIcon, 
+  DocumentTextIcon, 
   // QuestionMarkCircleIcon, 
   UserIcon, 
   ChevronRightIcon,
@@ -131,6 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, showToggleButton =
           <SidebarItem icon={<ChartBarIcon className="w-6 h-6" />} label="Dashboard" href="/admin" active collapsed={collapsed} />
           <SidebarItem icon={<ShoppingBagIcon className="w-6 h-6" />} label="Products" href="/admin/Products" collapsed={collapsed} />
           <SidebarItem icon={<InboxIcon className="w-6 h-6" />} label="Courses" href="/admin/Courses" collapsed={collapsed} />
+          <SidebarItem icon={<DocumentTextIcon className="w-6 h-6" />} label="Payments" href="/admin/Payment" collapsed={collapsed} />
         </nav>
         
         {/* {!collapsed && <div className="mt-8 px-4 py-2 text-sm text-gray-500">FAQs</div>}

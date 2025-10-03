@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { Star, Clock, Award, Heart, Zap,  Sun, Sparkles, Waves, Leaf } from 'lucide-react';
 import CheckoutButton from '../components/CheckoutButton';
+import { useRouter } from "next/navigation"; // add this at top of file
+
 
 interface Service {
   name: string;
@@ -24,6 +26,8 @@ interface ServiceCategories {
 }
 
 export default function ReikiServicesShowcase() {
+    const router = useRouter();
+
   const [activeCategory, setActiveCategory] = useState<string>('training');
 
   const serviceCategories: ServiceCategories = {
@@ -34,7 +38,7 @@ export default function ReikiServicesShowcase() {
         {
           name: 'Reiki Level 1 & 2',
           description: 'Self-healing, energy basics, hand positions, distant healing, Reiki symbols, professional practice',
-          price: 44000,
+          price: 1,
           displayPrice: '₹44,000',
           duration: 'Per Certification',
           level: 'Foundation',
@@ -459,15 +463,23 @@ export default function ReikiServicesShowcase() {
         ))}
       </div>
 
-     <div className="w-full py-3 bg-gradient-to-r from-[#f6cf92] to-[#f6d992] text-[#4D5557] font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105">
+           <div className="w-full py-3 bg-gradient-to-r from-[#f6cf92] to-[#f6d992] text-[#4D5557] font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105">
         {service.price > 0 ? (
           <CheckoutButton amount={service.price} />
         ) : (
-          <button className="w-full text-[#4D5557] font-semibold">
-            {service.displayPrice === 'Coming Soon' ? 'Coming Soon' : 'Contact for Details'}
+          <button
+            className="w-full text-[#4D5557] font-semibold"
+            onClick={() =>
+              service.displayPrice === "Coming Soon"
+                ? null
+                : router.push("/ContactUs") // 👈 redirects to contact page
+            }
+          >
+            {service.displayPrice === "Coming Soon" ? "Coming Soon" : "Contact for Details"}
           </button>
         )}
       </div>
+
     </div>
   );
 

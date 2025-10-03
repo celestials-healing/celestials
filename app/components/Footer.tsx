@@ -53,7 +53,7 @@ const handlePrivacyPolicyClick = (e: React.MouseEvent) => {
             <div>
             <h4 className="font-bold mb-4">Connect With Us</h4>
   <ul className="space-y-3">
-    {/* <li><Link href="/contact" className="text-sm hover:underline">Contact Us</Link></li> */}
+    <li><Link href="/ContactUs" className="text-sm hover:underline">Contact Us</Link></li>
     <li><Link href="/about" className="text-sm hover:underline">About Us</Link></li>
    
     {/* <li><Link href="/faqs" className="text-sm hover:underline">FAQs</Link></li> */}

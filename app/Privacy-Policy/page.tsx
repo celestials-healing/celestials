@@ -254,8 +254,8 @@ export default function PrivacyPolicy() {
                   <div className="flex items-center">
                     <Mail className="w-5 h-5 text-[#4D5557] mr-3" />
                     <span className="text-[#4A1A11]">
-                      Email: <a href="mailto:celestialshealing@gmail.com" className="text-[#4D5557] hover:underline font-semibold">
-                        celestialshealing@gmail.com
+                      Email: <a href="mailto:hello@celestialshealing.com" className="text-[#4D5557] hover:underline font-semibold">
+                        hello@celestialshealing.com
                       </a>
                     </span>
                   </div>
