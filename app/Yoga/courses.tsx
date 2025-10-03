@@ -575,8 +575,8 @@ className="w-full py-3 bg-gradient-to-r from-[#f6cf92] to-[#f6d992] text-[#4D555
             Begin Your Yoga Journey Today
           </h2>
           <p className="text-[#4A1A11] mb-8 max-w-2xl mx-auto">
-            Whether you're seeking physical fitness, mental clarity, or spiritual growth, 
-            our comprehensive yoga services will guide you on your path to wellness.
+              Whether you&apos;re seeking physical fitness, mental clarity, or spiritual growth, our comprehensive yoga services will guide you on your path to wellness.
+
           </p>
         </div>
       </div>

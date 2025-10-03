@@ -25,7 +25,7 @@ export default function ContactUs() {
             Get in Touch
           </h1>
           <p className="text-lg md:text-xl text-[#4A1A11] max-w-2xl mx-auto">
-            Have questions about our healing sessions? We'd love to hear from you.
+  Have questions about our healing sessions? We&apos;d love to hear from you.
           </p>
         </div>
 
