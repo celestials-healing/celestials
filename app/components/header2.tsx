@@ -160,35 +160,89 @@ export default function ResponsiveHero() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden flex flex-col items-center justify-center h-screen px-6 relative z-20">
+      <div className="lg:hidden flex flex-col items-center justify-center min-h-screen px-6 relative z-20 pb-20">
+        {/* Background Mandala - Mobile */}
+        <img
+          src="/mandala.png"
+          alt="Background Decorative Shape"
+          className="absolute z-0 rotate-slow opacity-40"
+          style={{
+            width: '350px',
+            height: '350px',
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }}
+        />
+
+        {/* Mobile Heading */}
         <h1
-          className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#4D5557] to-[#6a7577] bg-clip-text text-transparent leading-tight text-center mb-6 absolute top-16 fade-in-up"
+          className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#4D5557] to-[#6a7577] bg-clip-text text-transparent leading-tight text-center mb-6 mt-20 fade-in-up relative z-10"
           style={{
             fontFamily: 'Playfair Display',
             fontWeight: 900,
-            width: "400px",
+            animationDelay: '0.2s',
           }}
         >
           Welcome to<br />
           <span>Celestials healing.</span>
         </h1>
 
+        {/* Mobile Image Grid */}
+        <div className="relative z-10 w-full max-w-md mt-8 mb-8 fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <div className="grid grid-cols-2 gap-4">
+            {images.map((image, index) => (
+              <div
+                key={index}
+                onClick={() => handleImageClick(image)}
+                className={`cursor-pointer group slide-in-mobile ${
+                  selectedImage?.src === image.src ? 'enlarge-exit' : ''
+                } ${index === 2 ? 'col-span-2 mx-auto w-1/2' : ''}`}
+                style={{
+                  animationDelay: `${0.6 + index * 0.2}s`,
+                }}
+              >
+                <div className="relative w-full h-48 overflow-hidden rounded-xl shadow-2xl transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl">
+                  <img
+                    src={image.src}
+                    alt="Decorative"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {/* Overlay effect */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#4D5557] via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
+                  {/* Hover text */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <span className="text-white font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      Explore
+                    </span>
+                  </div>
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 shimmer"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Description */}
         <p
-          className="text-xl md:text-2xl text-[#4A1A11] text-center mb-8 max-w-2xl absolute bottom-10 leading-tight bg-white bg-opacity-70 p-4 rounded-2xl backdrop-blur-sm fade-in-up"
+          className="text-base md:text-lg text-[#4A1A11] text-center mb-8 leading-relaxed bg-white bg-opacity-80 p-6 rounded-2xl backdrop-blur-sm fade-in-up relative z-10 shadow-lg max-w-md"
           style={{
             fontWeight: 500,
-            animationDelay: '0.4s',
+            animationDelay: '1s',
           }}
         >
-          Welcome to our serene space dedicated to Reiki certification. Explore our courses designed to empower your spiritual journey and enhance your healing abilities.
+          Welcome to our serene space dedicated to Reiki offerings. Explore our courses designed to empower your spiritual journey and enhance your healing abilities.
         </p>
 
+        {/* Mobile Button */}
         <button
           onClick={handleStartJourney}
-          className="px-8 py-4 text-xl md:text-2xl font-semibold text-white bg-gradient-to-r from-[#4D5557] to-[#5d6769] hover:from-[#32120b] hover:to-[#4a1e16] rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 absolute bottom-5 pulse-glow"
+          className="px-8 py-4 text-lg md:text-xl font-semibold text-white bg-gradient-to-r from-[#4D5557] to-[#5d6769] hover:from-[#32120b] hover:to-[#4a1e16] rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 pulse-glow relative z-10 fade-in-up"
           style={{
             fontFamily: 'Playfair Display',
             fontWeight: "400",
+            animationDelay: '1.2s',
           }}
         >
           Start Your Journey
