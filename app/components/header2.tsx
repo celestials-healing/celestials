@@ -11,6 +11,7 @@ interface ImageData {
     top: string;
     right: string;
   };
+  hoverText: string;
 }
 
 export default function ResponsiveHero() {
@@ -23,9 +24,9 @@ export default function ResponsiveHero() {
   };
 
   const images = [
-    { src: '/about.jpeg', route: '/Yoga', delay: '0.2s', position: { top: '10px', right: '65px' } },
-    { src: '/image.jpg', route: '/courses', delay: '0.4s', position: { top: '80px', right: '215px' } },
-    { src: '/astrology1.jpg', route: '/Astrology', delay: '0.6s', position: { top: '170px', right: '105px' } },
+    { src: '/about.jpeg', route: '/Yoga', delay: '0.2s', position: { top: '10px', right: '65px' }, hoverText: 'Explore Yoga' },
+    { src: '/image.jpg', route: '/courses', delay: '0.4s', position: { top: '80px', right: '215px' }, hoverText: 'Explore Reiki' },
+    { src: '/astrology1.jpg', route: '/Astrology', delay: '0.6s', position: { top: '140px', right: '90px' }, hoverText: 'Discover Astrology' },
   ];
 
     const handleImageClick = (image: ImageData) => {
@@ -95,7 +96,7 @@ export default function ResponsiveHero() {
           style={{
             top: '450px',
             left: '425px',
-            width: '900px',
+            width: '730px',
             height: '105px',
             fontWeight: 500,
             animationDelay: '0.6s',
@@ -123,40 +124,58 @@ export default function ResponsiveHero() {
         </button>
 
         {/* Interactive Decorative Images with hover effects */}
-        {images.map((image, index) => (
-          <div
-            key={index}
-            onClick={() => handleImageClick(image)}
-            className={`absolute z-20 slide-in cursor-pointer group ${
-              selectedImage?.src === image.src ? 'enlarge-exit' : ''
-            }`}
-            style={{
-              width: index === 1 ? '180px' : index === 0 ? '180px' : '152px',
-              height: index === 1 ? '220px' : index === 0 ? '220px' : '229px',
-              top: image.position.top,
-              right: image.position.right,
-              animationDelay: image.delay,
-            }}
-          >
-            <div className="relative w-full h-full overflow-hidden rounded-lg shadow-2xl transform transition-all duration-500 group-hover:scale-110 group-hover:shadow-3xl group-hover:-rotate-2">
-              <img
-                src={image.src}
-                alt="Decorative"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-125"
-              />
-              {/* Overlay effect */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#4D5557] via-transparent to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
-              {/* Hover text */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <span className="text-white font-bold text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  Click to Explore
-                </span>
+        <div className="absolute z-20" style={{ top: '10px', right: '10px' }}>
+          {images.map((image, index) => (
+            <div
+              key={index}
+              onClick={() => handleImageClick(image)}
+              className={`absolute slide-in cursor-pointer group ${
+                selectedImage?.src === image.src ? 'enlarge-exit' : ''
+              }`}
+              style={{
+                width: index === 0 ? '200px' : index === 1 ? '180px' : '190px',
+                height: index === 0 ? '260px' : index === 1 ? '240px' : '230px',
+                top: index === 0 ? '0px' : index === 1 ? '50px' : '290px',
+                right: index === 0 ? '0px' : index === 1 ? '210px' : '30px',
+                animationDelay: image.delay,
+              }}
+            >
+              <div className="relative w-full h-full overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 group-hover:scale-105 group-hover:shadow-3xl group-hover:rotate-3 image-float">
+                {/* Gradient border effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#f6d992] via-[#f6cf92] to-[#4D5557] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl p-1">
+                  <div className="w-full h-full bg-white rounded-3xl"></div>
+                </div>
+                
+                <img
+                  src={image.src}
+                  alt="Decorative"
+                  className="relative w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 rounded-3xl"
+                />
+                
+                {/* Overlay effect */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#4D5557] via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 rounded-3xl"></div>
+                
+                {/* Decorative corner accent */}
+                <div className="absolute top-3 right-3 w-12 h-12 border-t-4 border-r-4 border-white opacity-0 group-hover:opacity-80 transition-all duration-500 rounded-tr-2xl"></div>
+                <div className="absolute bottom-3 left-3 w-12 h-12 border-b-4 border-l-4 border-white opacity-0 group-hover:opacity-80 transition-all duration-500 rounded-bl-2xl"></div>
+                
+                {/* Hover text with better styling */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-10">
+                  <span className="text-white font-bold text-xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 mb-2" style={{ fontFamily: 'Playfair Display' }}>
+                    {image.hoverText}
+                  </span>
+                  <div className="w-16 h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
+                
+                {/* Enhanced shimmer effect */}
+                <div className="absolute inset-0 shimmer rounded-3xl"></div>
+                
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ boxShadow: '0 0 40px rgba(246, 207, 146, 0.6)' }}></div>
               </div>
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 shimmer"></div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Mobile Layout */}
@@ -364,22 +383,43 @@ export default function ResponsiveHero() {
 
         .shimmer {
           background: linear-gradient(
-            90deg,
+            120deg,
             transparent,
-            rgba(255, 255, 255, 0.3),
+            rgba(255, 255, 255, 0.4),
             transparent
           );
           transform: translateX(-100%);
         }
 
         .group:hover .shimmer {
-          animation: shimmer 1.5s ease-in-out;
+          animation: shimmer 2s ease-in-out;
         }
 
         @keyframes shimmer {
           100% {
             transform: translateX(100%);
           }
+        }
+
+        .image-float {
+          animation: imageFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes imageFloat {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-15px);
+          }
+        }
+
+        .image-float:nth-child(2) {
+          animation-delay: 1s;
+        }
+
+        .image-float:nth-child(3) {
+          animation-delay: 2s;
         }
 
         .enlarge-animation {
@@ -429,6 +469,25 @@ export default function ResponsiveHero() {
 
         .shadow-3xl {
           box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-in-mobile {
+          opacity: 0;
+          transform: translateY(30px) scale(0.9);
+          animation: slideInMobile 0.8s ease-out forwards;
+        }
+
+        @keyframes slideInMobile {
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @media (max-width: 1023px) {
+          .rotate-slow {
+            animation: rotateSlow 40s linear infinite;
+          }
         }
       `}</style>
     </div>
