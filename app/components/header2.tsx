@@ -2,9 +2,21 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+
+interface ImageData {
+  src: string;
+  route: string;
+  delay: string;
+  position: {
+    top: string;
+    right: string;
+  };
+}
+
 export default function ResponsiveHero() {
   const router = useRouter();
-  const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+
 
   const handleStartJourney = () => {
     router.push('/about');
@@ -16,7 +28,7 @@ export default function ResponsiveHero() {
     { src: '/astrology1.jpg', route: '/Astrology', delay: '0.6s', position: { top: '170px', right: '105px' } },
   ];
 
-  const handleImageClick = (image) => {
+    const handleImageClick = (image: ImageData) => {
     setSelectedImage(image);
     setTimeout(() => {
       router.push(image.route);
