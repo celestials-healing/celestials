@@ -75,10 +75,10 @@ export default function ResponsiveHero() {
       <div className="hidden lg:flex lg:flex-col">
         {/* Heading with gradient text */}
         <h1
-          className="absolute z-20 text-6xl xl:text-8xl font-extrabold bg-gradient-to-r from-[#4D5557] via-[#6a7577] to-[#4D5557] bg-clip-text text-[#4D5557] leading-tight fade-in-up"
+          className="absolute z-20 text-8xl xl:text-8xl font-extrabold bg-gradient-to-r from-[#4D5557] via-[#6a7577] to-[#4D5557] bg-clip-text text-[#4D5557] leading-tight fade-in-up"
           style={{
             top: '185px',
-            left: '409px',
+            left: '429px',
             width: '950px',
             height: '200px',
             fontFamily: 'Playfair Display',
@@ -95,7 +95,7 @@ export default function ResponsiveHero() {
           className="absolute z-20 text-lg text-[#4A1A11] fade-in-up"
           style={{
             top: '450px',
-            left: '425px',
+            left: '445px',
             width: '730px',
             height: '105px',
             fontWeight: 500,
@@ -114,7 +114,7 @@ export default function ResponsiveHero() {
           className="absolute z-20 mt-4 px-8 py-4 text-2xl xl:text-3xl font-bold text-white bg-gradient-to-r from-[#4D5557] to-[#5d6769] hover:from-[#32120b] hover:to-[#4a1e16] rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 pulse-glow"
           style={{
             top: '500px',
-            left: '425px',
+            left: '445px',
             fontFamily: 'Playfair Display',
             fontWeight: "400",
           }}
@@ -124,7 +124,7 @@ export default function ResponsiveHero() {
         </button>
 
         {/* Interactive Decorative Images with hover effects */}
-        <div className="absolute z-20" style={{ top: '10px', right: '10px' }}>
+        <div className="absolute z-20" style={{ top: '10px', right: '60px' }}>
           {images.map((image, index) => (
             <div
               key={index}
@@ -136,7 +136,7 @@ export default function ResponsiveHero() {
                 width: index === 0 ? '200px' : index === 1 ? '180px' : '190px',
                 height: index === 0 ? '260px' : index === 1 ? '240px' : '230px',
                 top: index === 0 ? '0px' : index === 1 ? '50px' : '290px',
-                right: index === 0 ? '0px' : index === 1 ? '210px' : '30px',
+                right: index === 0 ? '0px' : index === 1 ? '220px' : '30px',
                 animationDelay: image.delay,
               }}
             >
