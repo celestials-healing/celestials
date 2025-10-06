@@ -37,7 +37,7 @@ const handlePrivacyPolicyClick = (e: React.MouseEvent) => {
              <div className="mb-8 md:mb-0">
               <Link href="/" className="inline-block mb-6">
                 <Image
-                      src="/Logo (2).png"
+                      src="/Logo (3).png"
                       alt="Celestials Healing Logo"
                       width={120}
                       height={120}

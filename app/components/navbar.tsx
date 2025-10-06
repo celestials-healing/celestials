@@ -111,10 +111,10 @@ const Navbar = () => {
     className="flex items-center justify-center"
   >
     <Image
-      src="/Logo (2).png"
+      src="/Logo (3).png"
       alt="Celestials Healing Logo"
-      width={80}
-      height={80}
+      width={70}
+      height={70}
       className="object-contain align-middle block"
       priority
     />
