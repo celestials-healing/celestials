@@ -124,7 +124,7 @@ export default function ResponsiveHero() {
         </button>
 
         {/* Interactive Decorative Images with hover effects */}
-        <div className="absolute z-20" style={{ top: '10px', right: '60px' }}>
+        <div className="absolute z-20" style={{ top: '30px', right: '60px' }}>
           {images.map((image, index) => (
             <div
               key={index}
