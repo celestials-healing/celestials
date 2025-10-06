@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiClient } from '@/lib/api-client';
 
-
 export default function LoginPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -15,6 +14,9 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // State for toggling password visibility
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -22,7 +24,6 @@ export default function LoginPage() {
       [name]: type === 'checkbox' ? checked : value
     }));
     
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -46,43 +47,32 @@ export default function LoginPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  if (!validateForm()) return;
+    e.preventDefault();
+    if (!validateForm()) return;
 
-  setIsLoading(true);
-  
-  try {
-    const response = await apiClient.login(formData);
-    
-    if (response.success) {
-      // Success - redirect to dashboard
-      console.log('Login successful:', response.user);
-      router.push('/');
-    } else {
-      // Handle errors
-      const errorMap: Record<string, string> = {};
-      response.errors?.forEach(error => {
-        errorMap[error.field] = error.message;
-      });
-      setErrors(errorMap);
+    setIsLoading(true);
+    try {
+      const response = await apiClient.login(formData);
+      if (response.success) {
+        router.push('/');
+      } else {
+        const errorMap: Record<string, string> = {};
+        response.errors?.forEach(error => {
+          errorMap[error.field] = error.message;
+        });
+        setErrors(errorMap);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setErrors({ general: 'Something went wrong. Please try again.' });
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error('Login error:', error);
-    setErrors({ general: 'Something went wrong. Please try again.' });
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+  };
 
   const handleSignUpClick = () => {
     router.push('/Register');
   };
-
-  
-
- 
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white overflow-hidden">
@@ -91,7 +81,6 @@ export default function LoginPage() {
       <div className="absolute top-0 right-0 w-32 h-32 md:w-48 lg:w-72 md:h-48 lg:h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64 h-64 md:w-96 md:h-96 bg-[#f6d992] opacity-20 rounded-full blur-3xl" />
 
-      {/* Background Decorative Image */}
       <img
         src="/mandala.png"
         alt="Background Decorative Shape"
@@ -110,25 +99,10 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1
-              className="text-4xl md:text-5xl font-bold text-[#4D5557] mb-4 pop-up"
-              style={{
-                fontFamily: 'Playfair Display',
-                fontWeight: "700",
-                animationDelay: '0.2s',
-              }}
-            >
-              Welcome<br />
-              Back
+            <h1 className="text-4xl md:text-5xl font-bold text-[#4D5557] mb-4 pop-up" style={{ fontFamily: 'Playfair Display', fontWeight: "700", animationDelay: '0.2s' }}>
+              Welcome<br />Back
             </h1>
-            <p
-              className="text-lg text-[#4A1A11] slide-in"
-              style={{
-                fontFamily: 'Playfair Display',
-                fontWeight: "400",
-                animationDelay: '0.4s',
-              }}
-            >
+            <p className="text-lg text-[#4A1A11] slide-in" style={{ fontFamily: 'Playfair Display', fontWeight: "400", animationDelay: '0.4s' }}>
               Continue your healing journey with us
             </p>
           </div>
@@ -148,31 +122,36 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Enter your email"
-                  className="w-full px-4 py-3 border border-[#f6d992] rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
-                  style={{ fontFamily: 'a Antara Distance' }}
+                  className="w-full px-4 py-3 border border-[#f6d992] text-black rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
 
               {/* Password */}
-              <div>
+              <div className="relative">
                 <label htmlFor="password" className="block text-sm font-medium text-[#4D5557] mb-2">
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="Enter your password"
-                  className="w-full px-4 py-3 border border-[#f6d992] rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
-                  style={{ fontFamily: 'Playfair Display' }}
+                  className="w-full px-4 py-3 text-black border border-[#f6d992] rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-[#4D5557] hover:text-[#32120b]"
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
               </div>
 
-              {/* Remember Me & Forgot Password */}
+              {/* Remember Me */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
@@ -187,7 +166,6 @@ export default function LoginPage() {
                     Remember me
                   </label>
                 </div>
-              
               </div>
 
               {/* Submit Button */}
@@ -195,37 +173,27 @@ export default function LoginPage() {
                 type="submit"
                 disabled={isLoading}
                 className="w-full px-6 py-3 text-lg font-semibold text-white bg-[#4D5557] hover:bg-[#32120b] rounded-full shadow-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  fontFamily: 'Playfair Display',
-                  fontWeight: "400",
-                }}
+                style={{ fontFamily: 'Playfair Display', fontWeight: "400" }}
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                     Signing In...
                   </div>
-                ) : (
-                  'Sign In'
-                )}
+                ) : 'Sign In'}
               </button>
             </form>
 
-            
-
-           
-
             {/* Sign Up Link */}
-            <p className="text-[#4A1A11]" style={{ fontFamily: 'Playfair Display' }}>
-  Don&apos;t have an account?{' '}
-  <button
-    onClick={handleSignUpClick}
-    className="text-[#4D5557] font-semibold hover:underline transition duration-300"
-  >
-    Sign Up
-  </button>
-</p>
-
+            <p className="text-[#4A1A11] mt-4 text-center" style={{ fontFamily: 'Playfair Display' }}>
+              Don&apos;t have an account?{' '}
+              <button
+                onClick={handleSignUpClick}
+                className="text-[#4D5557] font-semibold hover:underline transition duration-300"
+              >
+                Sign Up
+              </button>
+            </p>
           </div>
         </div>
       </div>
@@ -237,40 +205,24 @@ export default function LoginPage() {
           transform: scale(0.5);
           animation: popUp 0.6s ease-out forwards;
         }
-
         @keyframes popUp {
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
+          to { opacity: 1; transform: scale(1); }
         }
-
         .slide-in {
           opacity: 0;
           transform: translateY(30px);
           animation: slideIn 0.8s ease-out forwards;
         }
-
         @keyframes slideIn {
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
+          to { transform: translateY(0); opacity: 1; }
         }
-
         button:not(:disabled):hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 30px rgba(77, 85, 87, 0.3);
         }
-
         input:focus {
           transform: translateY(-1px);
           box-shadow: 0 5px 15px rgba(77, 85, 87, 0.1);
-        }
-
-        .social-button:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
       `}</style>
     </div>

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Footer = () => {
 const router = useRouter();
@@ -35,7 +36,15 @@ const handlePrivacyPolicyClick = (e: React.MouseEvent) => {
              {/* Logo */}
              <div className="mb-8 md:mb-0">
               <Link href="/" className="inline-block mb-6">
-                <span className="text-3xl font-serif italic">Logo</span>
+                <Image
+                      src="/Logo (2).png"
+                      alt="Celestials Healing Logo"
+                      width={120}
+                      height={120}
+                      className="object-contain align-middle block"
+                      priority
+                    />
+                
               </Link>
             </div>
             <div>

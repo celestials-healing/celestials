@@ -18,6 +18,10 @@ export default function SignUpPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // State for toggling password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -34,13 +38,8 @@ export default function SignUpPage() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
-    }
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
 
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -67,40 +66,33 @@ export default function SignUpPage() {
   };
 
   const handlePrivacyPolicyClick = (e: React.MouseEvent) => {
-  e.preventDefault(); // Prevent the label from triggering the checkbox
-  router.push('/Privacy-Policy');
-};
+    e.preventDefault(); 
+    router.push('/Privacy-Policy');
+  };
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  if (!validateForm()) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-  setIsLoading(true);
-  
-  try {
-    const response = await apiClient.signup(formData);
-    
-    if (response.success) {
-      // Success - user is automatically logged in
-      console.log('User created:', response.user);
-      router.push('/');
-    } else {
-      // Handle errors
-      const errorMap: Record<string, string> = {};
-      response.errors?.forEach(error => {
-        errorMap[error.field] = error.message;
-      });
-      setErrors(errorMap);
+    setIsLoading(true);
+    try {
+      const response = await apiClient.signup(formData);
+      if (response.success) {
+        router.push('/');
+      } else {
+        const errorMap: Record<string, string> = {};
+        response.errors?.forEach(error => {
+          errorMap[error.field] = error.message;
+        });
+        setErrors(errorMap);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      setErrors({ general: 'Something went wrong. Please try again.' });
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error('Signup error:', error);
-    setErrors({ general: 'Something went wrong. Please try again.' });
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+  };
 
   const handleSignInClick = () => {
     router.push('/login');
@@ -113,7 +105,6 @@ export default function SignUpPage() {
       <div className="absolute top-0 right-0 w-32 h-32 md:w-48 lg:w-72 md:h-48 lg:h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64 h-64 md:w-96 md:h-96 bg-[#f6d992] opacity-20 rounded-full blur-3xl" />
 
-      {/* Background Decorative Image */}
       <img
         src="/mandala.png"
         alt="Background Decorative Shape"
@@ -132,38 +123,22 @@ export default function SignUpPage() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1
-              className="text-4xl md:text-5xl font-bold text-[#4D5557] mb-4 pop-up"
-              style={{
-                fontFamily: 'Playfair Display',
-                fontWeight: "800",
-                animationDelay: '0.2s',
-              }}
-            >
+            <h1 className="text-4xl md:text-5xl font-bold text-[#4D5557] mb-4 pop-up" style={{ fontFamily: 'Playfair Display', fontWeight: "800", animationDelay: '0.2s' }}>
               Join Our<br />
               Healing Journey
             </h1>
-            <p
-              className="text-lg text-[#4A1A11] slide-in"
-              style={{
-                fontFamily: 'Playfair Display',
-                fontWeight: "400",
-                animationDelay: '0.4s',
-              }}
-            >
+            <p className="text-lg text-[#4A1A11] slide-in" style={{ fontFamily: 'Playfair Display', fontWeight: "400", animationDelay: '0.4s' }}>
               Create your account to begin your spiritual transformation
             </p>
           </div>
 
           {/* Sign Up Form */}
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 slide-in" style={{ animationDelay: '0.6s' }}>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 text-black">
               {/* Name Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-[#4D5557] mb-1">
-                    First Name
-                  </label>
+                  <label htmlFor="firstName" className="block text-sm font-medium text-[#4D5557] mb-1">First Name</label>
                   <input
                     type="text"
                     id="firstName"
@@ -175,11 +150,9 @@ export default function SignUpPage() {
                   />
                   {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
                 </div>
-                
+
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-[#4D5557] mb-1">
-                    Last Name
-                  </label>
+                  <label htmlFor="lastName" className="block text-sm font-medium text-[#4D5557] mb-1">Last Name</label>
                   <input
                     type="text"
                     id="lastName"
@@ -195,9 +168,7 @@ export default function SignUpPage() {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-[#4D5557] mb-1">
-                  Email Address
-                </label>
+                <label htmlFor="email" className="block text-sm font-medium text-[#4D5557] mb-1">Email Address</label>
                 <input
                   type="email"
                   id="email"
@@ -211,12 +182,10 @@ export default function SignUpPage() {
               </div>
 
               {/* Password */}
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-[#4D5557] mb-1">
-                  Password
-                </label>
+              <div className="relative">
+                <label htmlFor="password" className="block text-sm font-medium text-[#4D5557] mb-1">Password</label>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={formData.password}
@@ -224,16 +193,21 @@ export default function SignUpPage() {
                   className="w-full px-4 py-3 border border-[#f6d992] rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
                   style={{ fontFamily: 'Playfair Display' }}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-[#4D5557] hover:text-[#32120b]"
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
               </div>
 
               {/* Confirm Password */}
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#4D5557] mb-1">
-                  Confirm Password
-                </label>
+              <div className="relative">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#4D5557] mb-1">Confirm Password</label>
                 <input
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   id="confirmPassword"
                   name="confirmPassword"
                   value={formData.confirmPassword}
@@ -241,30 +215,37 @@ export default function SignUpPage() {
                   className="w-full px-4 py-3 border border-[#f6d992] rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
                   style={{ fontFamily: 'Playfair Display' }}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(prev => !prev)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-[#4D5557] hover:text-[#32120b]"
+                >
+                  {showConfirmPassword ? 'Hide' : 'Show'}
+                </button>
                 {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
               </div>
 
               {/* Checkboxes */}
               <div className="space-y-3">
                 <div className="flex items-start">
-  <input
-    type="checkbox"
-    id="agreeToTerms"
-    name="agreeToTerms"
-    checked={formData.agreeToTerms}
-    onChange={handleInputChange}
-    className="mt-1 h-4 w-4 text-[#4D5557] focus:ring-[#4D5557] border-[#f6d992] rounded"
-  />
-  <label htmlFor="agreeToTerms" className="ml-3 text-sm text-[#4A1A11]" style={{ fontFamily: 'Playfair Display' }}>
-    I agree to the{' '}
-    <span 
-      className="text-[#4D5557] underline cursor-pointer hover:text-[#32120b] transition-colors duration-200"
-      onClick={handlePrivacyPolicyClick}
-    >
-      Privacy Policy
-    </span>
-  </label>
-</div>
+                  <input
+                    type="checkbox"
+                    id="agreeToTerms"
+                    name="agreeToTerms"
+                    checked={formData.agreeToTerms}
+                    onChange={handleInputChange}
+                    className="mt-1 h-4 w-4 text-[#4D5557] focus:ring-[#4D5557] border-[#f6d992] rounded"
+                  />
+                  <label htmlFor="agreeToTerms" className="ml-3 text-sm text-[#4A1A11]" style={{ fontFamily: 'Playfair Display' }}>
+                    I agree to the{' '}
+                    <span 
+                      className="text-[#4D5557] underline cursor-pointer hover:text-[#32120b] transition-colors duration-200"
+                      onClick={handlePrivacyPolicyClick}
+                    >
+                      Privacy Policy
+                    </span>
+                  </label>
+                </div>
                 {errors.agreeToTerms && <p className="text-red-500 text-xs">{errors.agreeToTerms}</p>}
 
                 <div className="flex items-start">
@@ -287,10 +268,7 @@ export default function SignUpPage() {
                 type="submit"
                 disabled={isLoading}
                 className="w-full mt-6 px-6 py-3 text-lg font-semibold text-white bg-[#4D5557] hover:bg-[#32120b] rounded-full shadow-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  fontFamily: 'Playfair Display',
-                  fontWeight: "400",
-                }}
+                style={{ fontFamily: 'Playfair Display', fontWeight: "400" }}
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center">
@@ -326,32 +304,27 @@ export default function SignUpPage() {
           transform: scale(0.5);
           animation: popUp 0.6s ease-out forwards;
         }
-
         @keyframes popUp {
           to {
             opacity: 1;
             transform: scale(1);
           }
         }
-
         .slide-in {
           opacity: 0;
           transform: translateY(30px);
           animation: slideIn 0.8s ease-out forwards;
         }
-
         @keyframes slideIn {
           to {
             transform: translateY(0);
             opacity: 1;
           }
         }
-
         button:not(:disabled):hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 30px rgba(77, 85, 87, 0.3);
         }
-
         input:focus {
           transform: translateY(-1px);
           box-shadow: 0 5px 15px rgba(77, 85, 87, 0.1);

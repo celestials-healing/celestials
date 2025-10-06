@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { apiClient } from "@/lib/api-client"; // Adjust path as needed
+import Image from "next/image";
 // import { useRouter } from "next/navigation";
 
 interface User {
@@ -103,11 +104,23 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="text-xl md:text-2xl font-cursive font-bold text-[#4D5557]">
-              Logo
-            </Link>
-          </div>
+          {/* Logo */}
+<div className="flex-shrink-0 ">
+  <Link
+    href="/"
+    className="flex items-center justify-center"
+  >
+    <Image
+      src="/Logo (2).png"
+      alt="Celestials Healing Logo"
+      width={80}
+      height={80}
+      className="object-contain align-middle block"
+      priority
+    />
+  </Link>
+</div>
+
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
