@@ -423,7 +423,7 @@ export default function ResponsiveHero() {
         }
 
         .enlarge-animation {
-          animation: enlargeAndFade 0.6s ease-out forwards;
+          animation: enlargeAndFade 3s ease-out forwards;
         }
 
         @keyframes enlargeAndFade {
