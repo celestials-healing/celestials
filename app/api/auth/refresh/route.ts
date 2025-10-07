@@ -56,7 +56,7 @@ response.cookies.delete('refresh-token');
     response.cookies.set('auth-token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60,
       path: '/',
     });
@@ -64,7 +64,7 @@ response.cookies.delete('refresh-token');
     response.cookies.set('refresh-token', newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 30 * 24 * 60 * 60,
       path: '/',
     });
