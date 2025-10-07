@@ -140,6 +140,16 @@ export default function ResponsiveHero() {
                 animationDelay: image.delay,
               }}
             >
+              {/* Subtle pulse indicator for clickability */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-[#f6d992] to-[#f6cf92] rounded-3xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 pulse-ring"></div>
+              
+              {/* Click indicator badge */}
+              <div className="absolute -top-2 -right-2 z-30 w-8 h-8 bg-[#32120b] rounded-full shadow-lg flex items-center justify-center opacity-80 group-hover:opacity-0 transition-opacity duration-300 click-pulse">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                </svg>
+              </div>
+              
               <div className="relative w-full h-full overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-700 group-hover:scale-105 group-hover:shadow-3xl group-hover:rotate-3 image-float">
                 {/* Gradient border effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#f6d992] via-[#f6cf92] to-[#4D5557] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl p-1">
@@ -161,10 +171,10 @@ export default function ResponsiveHero() {
                 
                 {/* Hover text with better styling */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-10">
-                  <span className="text-white font-bold text-xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 mb-2" style={{ fontFamily: 'Playfair Display' }}>
+                  <span className="text-[#32120b] font-bold text-xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 mb-2" style={{ fontFamily: 'Playfair Display' }}>
                     {image.hoverText}
                   </span>
-                  <div className="w-16 h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                  <div className="w-16 h-0.5 bg-[#32120b] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                 </div>
                 
                 {/* Enhanced shimmer effect */}
@@ -209,6 +219,13 @@ export default function ResponsiveHero() {
 
         {/* Mobile Image Grid */}
         <div className="relative z-10 w-full max-w-md mt-8 mb-8 fade-in-up" style={{ animationDelay: '0.4s' }}>
+          {/* Tap instruction for mobile */}
+          <div className="text-center mb-4">
+            <p className="text-sm text-[#4D5557] font-medium animate-bounce-slow">
+              ✨ Tap any image to explore ✨
+            </p>
+          </div>
+          
           <div className="grid grid-cols-2 gap-4">
             {images.map((image, index) => (
               <div
@@ -221,7 +238,14 @@ export default function ResponsiveHero() {
                   animationDelay: `${0.6 + index * 0.2}s`,
                 }}
               >
-                <div className="relative w-full h-48 overflow-hidden rounded-xl shadow-2xl transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl">
+                {/* Click indicator for mobile */}
+                <div className="absolute -top-1 -right-1 z-30 w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center opacity-80 click-pulse">
+                  <svg className="w-3 h-3 text-[#4D5557]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                  </svg>
+                </div>
+                
+                <div className="relative w-full h-48 overflow-hidden rounded-xl shadow-2xl transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl pulse-ring">
                   <img
                     src={image.src}
                     alt="Decorative"
@@ -452,6 +476,49 @@ export default function ResponsiveHero() {
           }
         }
 
+        .pulse-ring {
+          animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulseRing {
+          0%, 100% {
+            opacity: 0.2;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.4;
+            transform: scale(1.05);
+          }
+        }
+
+        .click-pulse {
+          animation: clickPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes clickPulse {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 1;
+          }
+        }
+
+        .animate-bounce-slow {
+          animation: bounceSlow 3s ease-in-out infinite;
+        }
+
+        @keyframes bounceSlow {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
         .rotate-slow,
         .gentle-float {
           opacity: 1 !important;
@@ -460,6 +527,10 @@ export default function ResponsiveHero() {
         @media (max-width: 1023px) {
           .pop-up {
             opacity: 0.9 !important;
+          }
+          
+          .rotate-slow {
+            animation: rotateSlow 40s linear infinite;
           }
         }
 
@@ -481,12 +552,6 @@ export default function ResponsiveHero() {
           to {
             opacity: 1;
             transform: translateY(0) scale(1);
-          }
-        }
-
-        @media (max-width: 1023px) {
-          .rotate-slow {
-            animation: rotateSlow 40s linear infinite;
           }
         }
       `}</style>
