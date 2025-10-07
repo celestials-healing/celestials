@@ -79,6 +79,11 @@ export async function POST(request: NextRequest) {
       token: accessToken,
     });
 
+    // ✅ Delete old cookies before setting new ones
+response.cookies.delete('auth-token');
+response.cookies.delete('refresh-token');
+
+
     // Set HTTP-only cookies (longer expiry if "remember me" is checked)
     const accessMaxAge = body.rememberMe ? 30 * 24 * 60 * 60 : 7 * 24 * 60 * 60; // 30 days or 7 days
     const refreshMaxAge = body.rememberMe ? 90 * 24 * 60 * 60 : 30 * 24 * 60 * 60; // 90 days or 30 days

@@ -48,6 +48,10 @@ export async function POST(request: NextRequest) {
       token: accessToken,
     });
 
+    response.cookies.delete('auth-token');
+response.cookies.delete('refresh-token');
+
+
     // Update cookies
     response.cookies.set('auth-token', accessToken, {
       httpOnly: true,

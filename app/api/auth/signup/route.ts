@@ -80,6 +80,10 @@ export async function POST(request: NextRequest) {
       token: accessToken,
     }, { status: 201 });
 
+    response.cookies.delete('auth-token');
+response.cookies.delete('refresh-token');
+
+
     response.cookies.set('auth-token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
