@@ -314,7 +314,7 @@ const Navbar = () => {
                   Logout
                 </button>
               ) : (
-                <Link href="/Login" className="block w-full">
+                <Link href="/login" className="block w-full">
                   <button
                     onClick={closeMobileMenu}
                     className="w-full px-4 py-3 bg-[#4D5557] text-white rounded-md hover:bg-[#32120b] transition-colors"
