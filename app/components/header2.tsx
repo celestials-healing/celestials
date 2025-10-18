@@ -14,9 +14,9 @@ export default function CarouselHero() {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
   const images: ImageData[] = [
-    { src: '/about.jpeg', route: '/Yoga', hoverText: 'Explore Yoga' },
+    { src: '/yoga.jpg', route: '/Yoga', hoverText: 'Explore Yoga' },
     { src: '/image.jpg', route: '/courses', hoverText: 'Explore Reiki' },
-    { src: '/astrology1.jpg', route: '/Astrology', hoverText: 'Discover Astrology' },
+    { src: '/astro.jpg', route: '/Astrology', hoverText: 'Discover Astrology' },
   ];
 
   useEffect(() => {
