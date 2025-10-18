@@ -38,7 +38,7 @@ export default function ReikiServicesShowcase() {
         {
           name: 'Reiki Level 1 & 2',
           description: 'Self-healing, energy basics, hand positions, distant healing, Reiki symbols, professional practice',
-          price: 21,
+          price: 44000,
           displayPrice: '₹44,000',
           duration: 'Per Certification',
           level: 'Foundation',

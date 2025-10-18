@@ -146,8 +146,15 @@ export default function CarouselHero() {
             animation: 'fadeInUp 1s ease-out 0.4s both',
           }}
         >
-          Welcome to our serene space dedicated to Reiki Offerings. Explore our courses designed to empower your spiritual journey and enhance your healing abilities.
-        </p>
+          
+ 
+  Reconnect with your true self through Reiki, Astrology, and Yoga. 
+  Experience the harmony of energy, stars, and body to find peace and balance.
+
+
+</p>
+
+        
 
         {/* Buttons */}
         <div className="absolute z-20 flex gap-6" style={{ top: '620px', left: '800px' }}>
