@@ -43,17 +43,17 @@ export default function CarouselHero() {
     setTimeout(() => setIsAutoPlay(true), 8000);
   };
 
-  const goToPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-    setIsAutoPlay(false);
-    setTimeout(() => setIsAutoPlay(true), 8000);
-  };
+  // const goToPrev = () => {
+  //   setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  //   setIsAutoPlay(false);
+  //   setTimeout(() => setIsAutoPlay(true), 8000);
+  // };
 
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-    setIsAutoPlay(false);
-    setTimeout(() => setIsAutoPlay(true), 8000);
-  };
+  // const goToNext = () => {
+  //   setCurrentIndex((prev) => (prev + 1) % images.length);
+  //   setIsAutoPlay(false);
+  //   setTimeout(() => setIsAutoPlay(true), 8000);
+  // };
 
   const getCardPosition = (index: number) => {
     const position = (index - currentIndex + images.length) % images.length;

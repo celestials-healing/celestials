@@ -78,7 +78,7 @@ export default function SignUpPage() {
     try {
       const response = await apiClient.signup(formData);
       if (response.success) {
-        router.push('/');
+        router.push('/login');
       } else {
         const errorMap: Record<string, string> = {};
         response.errors?.forEach(error => {

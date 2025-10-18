@@ -14,6 +14,7 @@ import ProductCarousel from './components/offerings';
 // import ContactForm from './components/contactform';
 // import NewsletterSubscription from './components/newsletter';
 import Header2 from './components/header2';
+import Line from './components/line';
 
 // Initialize the font
 
@@ -26,6 +27,7 @@ export default function Home() {
      <Header2 />
       {/* <Header /> */}
       <Layout2 />
+      <Line />
       <ProductCarousel />
       {/* <Layout /> */}
      
