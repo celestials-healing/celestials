@@ -1,8 +1,12 @@
-// app/api/contact/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import Contact from '@/models/Contact';
 import mongoose from 'mongoose';
+
+interface UpdateData {
+  approved?: boolean;
+  status?: 'new' | 'read' | 'replied';
+}
 
 // PATCH - Update contact message (approve/unapprove)
 export async function PATCH(
@@ -22,16 +26,14 @@ export async function PATCH(
       );
     }
 
-    const body = await request.json();
+    const body = await request.json() as Partial<UpdateData>;
     const { approved, status } = body;
 
-    // Build update object
-    const updateData: Record<string, any> = {};
+    const updateData: UpdateData = {};
     if (typeof approved === 'boolean') updateData.approved = approved;
     if (status && ['new', 'read', 'replied'].includes(status))
-      updateData.status = status;
+      updateData.status = status as 'new' | 'read' | 'replied';
 
-    // Update the contact message
     const updatedMessage = await Contact.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
@@ -52,7 +54,7 @@ export async function PATCH(
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Update contact error:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to update message' },
@@ -69,9 +71,8 @@ export async function DELETE(
   try {
     await connectToDatabase();
 
-    const { id } = await context.params; // ✅ must await params
+    const { id } = await context.params;
 
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: 'Invalid message ID' },
@@ -79,7 +80,6 @@ export async function DELETE(
       );
     }
 
-    // Delete the contact message
     const deletedMessage = await Contact.findByIdAndDelete(id);
 
     if (!deletedMessage) {
@@ -93,7 +93,7 @@ export async function DELETE(
       { success: true, message: 'Message deleted successfully' },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Delete contact error:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to delete message' },
@@ -110,9 +110,8 @@ export async function GET(
   try {
     await connectToDatabase();
 
-    const { id } = await context.params; // ✅ must await params
+    const { id } = await context.params;
 
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: 'Invalid message ID' },
@@ -120,7 +119,6 @@ export async function GET(
       );
     }
 
-    // Fetch the contact message
     const message = await Contact.findById(id);
 
     if (!message) {
@@ -134,7 +132,7 @@ export async function GET(
       { success: true, data: message },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Fetch contact error:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch message' },

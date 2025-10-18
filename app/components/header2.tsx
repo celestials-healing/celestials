@@ -12,8 +12,6 @@ export default function CarouselHero() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  const [isEnlarging, setIsEnlarging] = useState(false);
-  const [enlargingIndex, setEnlargingIndex] = useState<number | null>(null);
 
   const images: ImageData[] = [
     { src: '/about.jpeg', route: '/Yoga', hoverText: 'Explore Yoga' },
@@ -36,12 +34,7 @@ export default function CarouselHero() {
   };
 
   const handleImageClick = (image: ImageData, index: number) => {
-    setIsEnlarging(true);
-    setEnlargingIndex(index);
-    
-    setTimeout(() => {
-      router.push(image.route);
-    }, 3000);
+    router.push(image.route);
   };
 
   const goToSlide = (index: number) => {
@@ -64,16 +57,6 @@ export default function CarouselHero() {
 
   const getCardPosition = (index: number) => {
     const position = (index - currentIndex + images.length) % images.length;
-    
-    if (isEnlarging && enlargingIndex === index) {
-      return {
-        zIndex: 100,
-        transform: 'translate(-50%, -50%)',
-        opacity: 1,
-        left: '50%',
-        top: '50%'
-      };
-    }
     
     if (position === 0) {
       return { 
@@ -98,11 +81,6 @@ export default function CarouselHero() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white overflow-hidden">
-      {/* Enlarging overlay */}
-      {isEnlarging && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 transition-opacity duration-800" />
-      )}
-      
       {/* Animated Background Orbs */}
       <div className="absolute top-0 left-0 w-32 h-32 md:w-48 lg:w-72 md:h-48 lg:h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute top-0 right-0 w-32 h-32 md:w-48 lg:w-72 md:h-48 lg:h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
@@ -206,14 +184,13 @@ export default function CarouselHero() {
                 <div
                   key={index}
                   onClick={() => handleImageClick(image, index)}
-                  className={`absolute transition-all ease-in-out cursor-pointer ${isEnlarging && enlargingIndex === index ? 'duration-0' : 'duration-1000'}`}
+                  className="absolute transition-all duration-1000 ease-in-out cursor-pointer"
                   style={{
                     ...position,
                     transformStyle: 'preserve-3d',
-                    pointerEvents: isEnlarging ? 'none' : 'auto',
                   }}
                 >
-                  <div className={`relative w-95 h-106 shadow-2xl rounded-3xl overflow-hidden group ${isEnlarging && enlargingIndex === index ? 'z-[110] enlarge-animation' : ''}`}>
+                  <div className="relative w-95 h-106 shadow-2xl rounded-3xl overflow-hidden group">
                     <img
                       src={image.src}
                       alt={image.hoverText}
@@ -295,21 +272,20 @@ export default function CarouselHero() {
         </div>
 
         {/* Mobile Carousel with 3D tilt */}
-        <div style={{ perspective: '1000px'   }} className="relative w-full max-w-sm h-80 mb-8 relative z-10 flex items-center justify-center fadeInUp 1s ease-out 0.4s both" >
+        <div style={{ perspective: '1000px' }} className="relative w-full max-w-sm h-80 mb-8 relative z-10 flex items-center justify-center" style={{ animation: 'fadeInUp 1s ease-out 0.4s both' }}>
           {images.map((image, index) => {
             const position = getCardPosition(index);
             return (
               <div
                 key={index}
                 onClick={() => handleImageClick(image, index)}
-                className={`absolute transition-all ease-in-out cursor-pointer ${isEnlarging && enlargingIndex === index ? 'duration-0' : 'duration-1000'}`}
+                className="absolute transition-all duration-1000 ease-in-out cursor-pointer"
                 style={{
                   ...position,
                   transformStyle: 'preserve-3d',
-                  pointerEvents: isEnlarging ? 'none' : 'auto',
                 }}
               >
-                <div className={`relative w-64 h-80 rounded-2xl overflow-hidden shadow-2xl group ${isEnlarging && enlargingIndex === index ? 'z-[110] enlarge-animation' : ''}`}>
+                <div className="relative w-64 h-80 rounded-2xl overflow-hidden shadow-2xl group">
                   <img
                     src={image.src}
                     alt={image.hoverText}

@@ -1,8 +1,12 @@
-// app/api/contact/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import Contact from '@/models/Contact';
 import { validateContactData, ContactData } from '@/lib/Contact';
+
+interface ContactQuery {
+  status?: string;
+  approved?: boolean;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,7 +14,6 @@ export async function POST(request: NextRequest) {
 
     const body: ContactData = await request.json();
 
-    // Validate input data
     const validationErrors = validateContactData(body);
     if (validationErrors.length > 0) {
       return NextResponse.json(
@@ -23,7 +26,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create new contact message with approved: false
     const contactMessage = await Contact.create({
       name: body.name.trim(),
       email: body.email.toLowerCase().trim(),
@@ -31,9 +33,6 @@ export async function POST(request: NextRequest) {
       status: 'new',
       approved: false,
     });
-
-    // Optional: Send email notification to admin
-    // await sendEmailNotification(contactMessage);
 
     return NextResponse.json(
       {
@@ -47,7 +46,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Contact form submission error:', error);
 
     return NextResponse.json(
@@ -66,23 +65,16 @@ export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    // Get query parameters
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const approved = searchParams.get('approved');
-    const limit = parseInt(searchParams.get('limit') || '50');
-    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const page = parseInt(searchParams.get('page') || '1', 10);
 
-    // Build query
-    const query: any = {};
-    if (status) {
-      query.status = status;
-    }
-    if (approved !== null) {
-      query.approved = approved === 'true';
-    }
+    const query: ContactQuery = {};
+    if (status) query.status = status;
+    if (approved !== null) query.approved = approved === 'true';
 
-    // Fetch messages with pagination
     const skip = (page - 1) * limit;
     const messages = await Contact.find(query)
       .sort({ createdAt: -1 })
@@ -105,13 +97,10 @@ export async function GET(request: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Fetch contacts error:', error);
     return NextResponse.json(
-      {
-        success: false,
-        message: 'Failed to fetch messages',
-      },
+      { success: false, message: 'Failed to fetch messages' },
       { status: 500 }
     );
   }
