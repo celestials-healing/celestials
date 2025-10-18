@@ -33,7 +33,7 @@ export default function CarouselHero() {
     router.push('/about');
   };
 
-  const handleImageClick = (image: ImageData, index: number) => {
+  const handleImageClick = (image: ImageData) => {
     router.push(image.route);
   };
 
@@ -130,8 +130,8 @@ export default function CarouselHero() {
             animation: 'fadeInUp 1s ease-out 0.2s both',
           }}
         >
-          "Begin your healing journey 
-          with Celestials"
+          &quot;Begin your healing journey 
+          with Celestials&quot;
         </h1>
 
         {/* Description */}
@@ -163,7 +163,7 @@ export default function CarouselHero() {
           </button>
 
           <button
-            onClick={() => handleImageClick(images[currentIndex], currentIndex)}
+            onClick={() => handleImageClick(images[currentIndex])}
             className="px-8 py-4 text-2xl font-bold text-[#4D5557] bg-white border-2 border-[#4D5557] hover:bg-[#4D5557] hover:text-white rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-3xl"
             style={{
               fontFamily: 'Playfair Display',
@@ -183,7 +183,7 @@ export default function CarouselHero() {
               return (
                 <div
                   key={index}
-                  onClick={() => handleImageClick(image, index)}
+                  onClick={() => handleImageClick(image)}
                   className="absolute transition-all duration-1000 ease-in-out cursor-pointer"
                   style={{
                     ...position,
@@ -272,13 +272,26 @@ export default function CarouselHero() {
         </div>
 
         {/* Mobile Carousel with 3D tilt */}
-        <div style={{ perspective: '1000px' }} className="relative w-full max-w-sm h-80 mb-8 relative z-10 flex items-center justify-center" style={{ animation: 'fadeInUp 1s ease-out 0.4s both' }}>
-          {images.map((image, index) => {
+        <div style={{ perspective: '1000px' }} className="relative w-full max-w-sm h-80 mb-8 z-10 flex items-center justify-center">
+          <style jsx>{`
+            @keyframes fadeInUpMobile {
+              from {
+                opacity: 0;
+                transform: translateY(30px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+          `}</style>
+          <div style={{ animation: 'fadeInUpMobile 1s ease-out 0.4s both' }} className="w-full h-full flex items-center justify-center">
+            {images.map((image, index) => {
             const position = getCardPosition(index);
             return (
               <div
                 key={index}
-                onClick={() => handleImageClick(image, index)}
+                onClick={() => handleImageClick(image)}
                 className="absolute transition-all duration-1000 ease-in-out cursor-pointer"
                 style={{
                   ...position,
@@ -308,6 +321,7 @@ export default function CarouselHero() {
               </div>
             );
           })}
+          </div>
         </div>
 
         {/* Mobile dots */}
@@ -350,7 +364,7 @@ export default function CarouselHero() {
           </button>
 
           <button
-            onClick={() => handleImageClick(images[currentIndex], currentIndex)}
+            onClick={() => handleImageClick(images[currentIndex])}
             className="w-full px-8 py-4 text-lg md:text-xl font-semibold text-[#4D5557] bg-white border-2 border-[#4D5557] hover:bg-[#4D5557] hover:text-white rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 relative z-10"
             style={{
               fontFamily: 'Playfair Display',
