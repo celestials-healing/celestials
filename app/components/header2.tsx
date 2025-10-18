@@ -340,7 +340,9 @@ export default function CarouselHero() {
             animation: 'fadeInUp 1s ease-out 1s both',
           }}
         >
-          Welcome to our serene space dedicated to Reiki offerings. Explore our courses designed to empower your spiritual journey and enhance your healing abilities.
+           Reconnect with your true self through Reiki, Astrology, and Yoga. 
+  Experience the harmony of energy, stars, and body to find peace and balance.
+
         </p>
 
         {/* Mobile Buttons */}
