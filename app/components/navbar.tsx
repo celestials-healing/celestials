@@ -49,13 +49,14 @@ const Navbar = () => {
           <div className="flex-shrink-0 ">
             <Link href="/" className="flex items-center justify-center">
               <Image
-                src="/Logo (3).png"
-                alt="Celestials Healing Logo"
-                width={70}
-                height={70}
-                className="object-contain align-middle block"
-                priority
-              />
+  src="/Logo (3).png"
+  alt="Celestials Healing Logo"
+  width={70}
+  height={70}
+  className="object-contain align-middle block transition-transform duration-300 hover:scale-210"
+  priority
+/>
+
             </Link>
           </div>
 
