@@ -272,21 +272,8 @@ export default function CarouselHero() {
         </div>
 
         {/* Mobile Carousel with 3D tilt */}
-        <div style={{ perspective: '1000px' }} className="relative w-full max-w-sm h-80 mb-8 z-10 flex items-center justify-center">
-          <style jsx>{`
-            @keyframes fadeInUpMobile {
-              from {
-                opacity: 0;
-                transform: translateY(30px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-          `}</style>
-          <div style={{ animation: 'fadeInUpMobile 1s ease-out 0.4s both' }} className="w-full h-full flex items-center justify-center">
-            {images.map((image, index) => {
+        <div style={{ perspective: '1000px', animation: 'fadeInUp 1s ease-out 0.4s both' }} className="relative w-full max-w-sm h-80 mb-8 z-10 flex items-center justify-center">
+          {images.map((image, index) => {
             const position = getCardPosition(index);
             return (
               <div
@@ -321,7 +308,6 @@ export default function CarouselHero() {
               </div>
             );
           })}
-          </div>
         </div>
 
         {/* Mobile dots */}
