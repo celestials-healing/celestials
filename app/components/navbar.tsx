@@ -2,58 +2,17 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { apiClient } from "@/lib/api-client"; // Adjust path as needed
 import Image from "next/image";
-// import { useRouter } from "next/navigation";
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  isVerified: boolean;
-}
-
+import { useAuth } from "@/lib/AuthContext"; // Adjust path as needed
 
 const Navbar = () => {
-  // const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Check if user is admin (email is twdurgesh@gmail.com)
-  const isAdmin = user?.email === "twdurgesh226@gmail.com";
-  const isLoggedIn = !!user;
-
-  
-  // Check authentication status on component mount
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      setIsLoading(true);
-      try {
-        if (apiClient.isAuthenticated()) {
-          const response = await apiClient.getCurrentUser();
-          if (response.success && response.user) {
-            setUser(response.user);
-          } else {
-            // Clear invalid token
-            apiClient.clearAuth();
-            setUser(null);
-          }
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-        apiClient.clearAuth();
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
+  // Get auth state from context
+  const { user, isLoading, isLoggedIn, isAdmin, logout } = useAuth();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,26 +34,9 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle logout
   const handleLogout = async () => {
-    try {
-      setIsLoading(true);
-      const response = await apiClient.logout();
-      if (response.success) {
-        setUser(null);
-        // Optionally redirect to home page
-        // router.push('/');
-      } else {
-        console.error('Logout failed:', response.message);
-      }
-    } catch (error) {
-      console.error('Logout error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    await logout();
   };
-
-  
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -104,30 +46,24 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           
           {/* Logo */}
-          {/* Logo */}
-<div className="flex-shrink-0 ">
-  <Link
-    href="/"
-    className="flex items-center justify-center"
-  >
-    <Image
-      src="/Logo (3).png"
-      alt="Celestials Healing Logo"
-      width={70}
-      height={70}
-      className="object-contain align-middle block"
-      priority
-    />
-  </Link>
-</div>
-
+          <div className="flex-shrink-0 ">
+            <Link href="/" className="flex items-center justify-center">
+              <Image
+                src="/Logo (3).png"
+                alt="Celestials Healing Logo"
+                width={70}
+                height={70}
+                className="object-contain align-middle block"
+                priority
+              />
+            </Link>
+          </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
               Home Page
             </Link>
-           
 
             {/* Desktop Dropdown */}
             <div className="relative" ref={dropdownRef}>
@@ -165,7 +101,7 @@ const Navbar = () => {
               )}
             </div>
 
-             <Link href="/about" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
+            <Link href="/about" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
               About Us
             </Link>
             <Link href="/ContactUs" className="text-lg font-medium text-[#4D5557] hover:underline transition-colors">
@@ -178,11 +114,11 @@ const Navbar = () => {
             {/* User greeting if logged in */}
             {isLoggedIn && !isLoading && (
               <span className="text-sm text-[#4D5557]">
-                Hi, {user.firstName}!
+                Hi, {user?.firstName}!
               </span>
             )}
 
-            {/* Show Admin button only if user is logged in with twdurgesh@gmail.com */}
+            {/* Show Admin button only if user is admin */}
             {isAdmin && (
               <Link href="/admin">
                 <button className="px-4 py-2 border-2 border-[#4D5557] text-[#4D5557] rounded-md hover:bg-[#4D5557] hover:text-white transition-colors">
@@ -234,7 +170,7 @@ const Navbar = () => {
             {/* User greeting in mobile */}
             {isLoggedIn && !isLoading && (
               <div className="text-sm text-[#4D5557] py-2 border-b border-gray-100">
-                Hi, {user.firstName}!
+                Hi, {user?.firstName}!
               </div>
             )}
 
@@ -253,7 +189,7 @@ const Navbar = () => {
               About Us
             </Link>
             <Link
-              href="/Contact Us"
+              href="/ContactUs"
               className="block text-lg font-medium text-[#4D5557] py-2 border-b border-gray-100"
               onClick={closeMobileMenu}
             >
@@ -283,7 +219,7 @@ const Navbar = () => {
 
             {/* Mobile Action Buttons */}
             <div className="pt-4 space-y-3">
-              {/* Show Admin button only if user is logged in with twdurgesh@gmail.com */}
+              {/* Show Admin button only if user is admin */}
               {isAdmin && (
                 <Link href="/admin" className="block w-full">
                   <button

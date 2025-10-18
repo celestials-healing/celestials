@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from './components/Footer';
  import Navbar from './components/navbar';
+ import { AuthProvider } from '@/lib/AuthContext';
+
 //  import MusicPlayer from "./components/MusicPlayer";
 
 // Add celestial font variable
@@ -38,11 +40,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${celestialFont.variable} antialiased`}
       >
+    <AuthProvider>
         <Navbar/>
         
         {children}
         {/* <MusicPlayer /> */}
         <Footer/>
+    </AuthProvider>
       </body>
     </html>
   );

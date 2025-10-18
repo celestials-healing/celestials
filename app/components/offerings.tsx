@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const products = [
@@ -8,26 +9,28 @@ const products = [
     description:
       "Rejuvenate your mind, body, and spirit with our professional Reiki healing sessions. Using ancient energy healing techniques, our certified practitioners channel positive energy to remove blockages, reduce stress, and promote emotional and physical well-being. Whether you're seeking relaxation, pain relief, or spiritual alignment, Reiki can help restore balance and harmony in your life.",
     imageSrc: "/reiki.jpg",
+    route: "/courses",
   },
   {
     name: "Astrology ",
     description:
       "Discover the secrets of your destiny with our expert Astrology and Palmistry services. Our experienced astrologers analyze planetary positions and cosmic influences to provide deep insights into your personality, career, relationships, and future possibilities. Meanwhile, our palmistry readings interpret the lines and mounts on your hand to reveal your strengths, challenges, and life path. Gain clarity and guidance to navigate life with confidence.",
     imageSrc: "/astro.jpg",
+    route: "/Astrology",
   },
   {
    
-  name: "Yoga Sessions",
-  description:
-    "Rejuvenate your mind, body, and soul with our calming yoga sessions. Guided by experienced instructors, each class blends breathing techniques, meditation, and asanas to enhance flexibility, balance, and inner peace. Whether you're a beginner or a seasoned practitioner, our yoga sessions are designed to reduce stress, improve overall well-being, and help you stay connected with your inner self.",
-  imageSrc: "/yoga.jpg",
-
-
+    name: "Yoga Sessions",
+    description:
+      "Rejuvenate your mind, body, and soul with our calming yoga sessions. Guided by experienced instructors, each class blends breathing techniques, meditation, and asanas to enhance flexibility, balance, and inner peace. Whether you're a beginner or a seasoned practitioner, our yoga sessions are designed to reduce stress, improve overall well-being, and help you stay connected with your inner self.",
+    imageSrc: "/yoga.jpg",
+    route: "/Yoga",
   },
  
 ];
 
 const Carousel = () => {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const nextSlide = () => {
@@ -36,6 +39,10 @@ const Carousel = () => {
 
   const prevSlide = () => {
     setActiveIndex((prev) => (prev - 1 + products.length) % products.length);
+  };
+
+  const handleExplore = () => {
+    router.push(products[activeIndex].route);
   };
 
   return (
@@ -79,7 +86,22 @@ const Carousel = () => {
     fontFamily: 'Playfair Display',
     fontWeight: '700',
   }}>{products[activeIndex].name}</h2>
-          <p className="text-gray-700 mb-4 text-lg" >{products[activeIndex].description}</p>
+          <p className="text-gray-700 mb-8 text-lg" >{products[activeIndex].description}</p>
+
+          <button
+            onClick={handleExplore}
+            className="relative px-12 py-4 text-lg font-bold text-white rounded-full shadow-2xl transition-all duration-500 transform hover:scale-110 group overflow-hidden w-fit"
+            style={{ fontFamily: 'Playfair Display' }}
+          >
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#4D5557] via-[#5d6769] to-[#4D5557] group-hover:from-[#32120b] group-hover:via-[#4a1e16] group-hover:to-[#32120b] transition-all duration-500"></div>
+            <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-30 bg-gradient-to-r from-transparent via-white to-transparent transition-opacity duration-500"></div>
+            <span className="relative z-10 flex items-center gap-2">
+              Explore {products[activeIndex].name}
+              <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          </button>
 
           
 
@@ -106,18 +128,27 @@ const Carousel = () => {
           <div className="text-center px-4">
             <h2 
               className="text-3xl md:text-4xl text-[#4A1A11] font-bold mb-4" 
-              style={{ fontFamily: 'Master Of Break', fontWeight: "400" }}
+              style={{ fontFamily: 'Playfair Display', fontWeight: "700" }}
             >
               {products[activeIndex].name}
             </h2>
-            <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+            <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
               {products[activeIndex].description}
             </p>
+
+            <button
+              onClick={handleExplore}
+              className="relative px-10 py-4 text-lg font-bold text-white rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 group overflow-hidden w-full"
+              style={{ fontFamily: 'Playfair Display' }}
+            >
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#4D5557] to-[#5d6769]"></div>
+              <span className="relative z-10">Explore {products[activeIndex].name}</span>
+            </button>
           </div>
         </div>
 
 
-      <div className="hidden lg:flex w-full justify-center relative top-[-120px] left-[160px]">
+      <div className="hidden lg:flex w-full justify-center relative top-[-70px] left-[160px]">
         <div className="flex space-x-2">
           <button
             onClick={prevSlide}

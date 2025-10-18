@@ -2,9 +2,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiClient } from '@/lib/api-client';
+import { useAuth } from '@/lib/AuthContext'; // Import useAuth
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth(); // Get login function from context
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -13,8 +16,6 @@ export default function LoginPage() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-
-  // State for toggling password visibility
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +54,12 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const response = await apiClient.login(formData);
-      if (response.success) {
+      
+      if (response.success && response.user) {
+        // Update auth context with user data - THIS IS THE KEY CHANGE
+        login(response.user);
+        
+        // Redirect to home page
         router.push('/');
       } else {
         const errorMap: Record<string, string> = {};
@@ -110,6 +116,13 @@ export default function LoginPage() {
           {/* Login Form */}
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 slide-in" style={{ animationDelay: '0.6s' }}>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* General Error */}
+              {errors.general && (
+                <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                  {errors.general}
+                </div>
+              )}
+
               {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-[#4D5557] mb-2">
@@ -132,22 +145,24 @@ export default function LoginPage() {
                 <label htmlFor="password" className="block text-sm font-medium text-[#4D5557] mb-2">
                   Password
                 </label>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Enter your password"
-                  className="w-full px-4 py-3 text-black border border-[#f6d992] rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(prev => !prev)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-[#4D5557] hover:text-[#32120b]"
-                >
-                  {showPassword ? 'Hide' : 'Show'}
-                </button>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    placeholder="Enter your password"
+                    className="w-full px-4 py-3 pr-16 text-black border border-[#f6d992] rounded-lg focus:ring-2 focus:ring-[#4D5557] focus:border-transparent outline-none transition duration-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(prev => !prev)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-[#4D5557] hover:text-[#32120b]"
+                  >
+                    {showPassword ? 'Hide' : 'Show'}
+                  </button>
+                </div>
                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
               </div>
 

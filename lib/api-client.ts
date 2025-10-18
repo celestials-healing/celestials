@@ -65,6 +65,7 @@ class ApiClient {
       const response = await fetch(url, config);
       const data = await response.json();
 
+      // Store token if provided
       if (data.token && typeof window !== 'undefined') {
         localStorage.setItem('auth-token', data.token);
       }
@@ -86,7 +87,6 @@ class ApiClient {
     }
   }
 
-  // If your API returns the created user, keep ApiResponse<User>. If not, change to ApiResponse<null>.
   async signup(data: SignupData): Promise<ApiResponse<User>> {
     return this.request<User>('/auth/signup', {
       method: 'POST',
@@ -94,20 +94,24 @@ class ApiClient {
     });
   }
 
-  // Most auth APIs return { user, token }
   async login(data: LoginData): Promise<ApiResponse<User>> {
-    return this.request<User>('/auth/login', {
+    const response = await this.request<User>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(data),
     });
+    return response;
   }
 
   async logout(): Promise<ApiResponse<null>> {
-    const response = await this.request<null>('/auth/logout', { method: 'POST' });
+    const response = await this.request<null>('/auth/logout', { 
+      method: 'POST' 
+    });
 
+    // Always clear local storage on logout
     if (typeof window !== 'undefined') {
       localStorage.removeItem('auth-token');
     }
+    
     return response;
   }
 
@@ -128,6 +132,12 @@ class ApiClient {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('auth-token');
     }
+  }
+
+  // Helper method to get stored token
+  getToken(): string | null {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem('auth-token');
   }
 }
 
