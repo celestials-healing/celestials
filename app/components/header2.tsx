@@ -251,7 +251,7 @@ export default function CarouselHero() {
         </h1>
 
         {/* Mobile Navigation Buttons on Top */}
-        <div className="flex justify-center gap-6 mb-6 relative z-10">
+        {/* <div className="flex justify-center gap-6 mb-6 relative z-10">
           <button
             onClick={goToPrev}
             className="bg-white bg-opacity-70 text-[#4D5557] rounded-full p-2 shadow-lg transition-all hover:bg-opacity-100"
@@ -269,7 +269,7 @@ export default function CarouselHero() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
-        </div>
+        </div> */}
 
         {/* Mobile Carousel with 3D tilt */}
         <div style={{ perspective: '1000px', animation: 'fadeInUp 1s ease-out 0.4s both' }} className="relative w-full max-w-sm h-80 mb-8 z-10 flex items-center justify-center">
