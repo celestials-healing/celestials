@@ -55,8 +55,8 @@ export async function GET(request: NextRequest) {
       users: transformedUsers,
     });
 
-  } catch (error) {
-    console.error('Error fetching users:', error);
+  } catch {
+    
     return NextResponse.json(
       { success: false, error: 'Failed to fetch users' },
       { status: 500 }

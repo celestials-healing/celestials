@@ -50,7 +50,7 @@ export default function AuthDashboard() {
       } else {
         setError('Failed to fetch users data');
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
