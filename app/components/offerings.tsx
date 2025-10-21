@@ -144,6 +144,24 @@ const Carousel = () => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#4D5557] to-[#5d6769]"></div>
               <span className="relative z-10">Explore {products[activeIndex].name}</span>
             </button>
+             <div className="hidden lg:flex w-full justify-center relative top-[-70px] left-[160px]">
+        <div className="flex space-x-2">
+          <button
+            onClick={prevSlide}
+            className="p-4 bg-[#4A1A11] rounded-full shadow-md text-white hover:bg-gray-800 transition"
+          >
+            <FaChevronLeft />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="p-4 bg-[#4A1A11] rounded-full shadow-md text-white hover:bg-gray-800 transition"
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+      </div>
+
+            
           </div>
         </div>
 

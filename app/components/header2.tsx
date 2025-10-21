@@ -12,6 +12,8 @@ export default function CarouselHero() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [loadedCount, setLoadedCount] = useState(0);
 
   const images: ImageData[] = [
     { src: '/yoga.jpg', route: '/Yoga', hoverText: 'Explore Yoga' },
@@ -19,15 +21,54 @@ export default function CarouselHero() {
     { src: '/astro.jpg', route: '/Astrology', hoverText: 'Discover Astrology' },
   ];
 
+  // Preload all images before showing animations
   useEffect(() => {
-    if (!isAutoPlay) return;
+    const imageUrls = [
+      ...images.map(img => img.src),
+      '/mandala.png',
+      '/women3.png'
+    ];
+
+    let loaded = 0;
+    const imageElements: HTMLImageElement[] = [];
+
+    imageUrls.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loaded++;
+        setLoadedCount(loaded);
+        if (loaded === imageUrls.length) {
+          setImagesLoaded(true);
+        }
+      };
+      img.onerror = () => {
+        loaded++;
+        setLoadedCount(loaded);
+        if (loaded === imageUrls.length) {
+          setImagesLoaded(true);
+        }
+      };
+      imageElements.push(img);
+    });
+
+    return () => {
+      imageElements.forEach(img => {
+        img.onload = null;
+        img.onerror = null;
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isAutoPlay || !imagesLoaded) return;
     
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlay, images.length]);
+  }, [isAutoPlay, imagesLoaded, images.length]);
 
   const handleStartJourney = () => {
     router.push('/about');
@@ -42,18 +83,6 @@ export default function CarouselHero() {
     setIsAutoPlay(false);
     setTimeout(() => setIsAutoPlay(true), 8000);
   };
-
-  // const goToPrev = () => {
-  //   setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  //   setIsAutoPlay(false);
-  //   setTimeout(() => setIsAutoPlay(true), 8000);
-  // };
-
-  // const goToNext = () => {
-  //   setCurrentIndex((prev) => (prev + 1) % images.length);
-  //   setIsAutoPlay(false);
-  //   setTimeout(() => setIsAutoPlay(true), 8000);
-  // };
 
   const getCardPosition = (index: number) => {
     const position = (index - currentIndex + images.length) % images.length;
@@ -79,6 +108,24 @@ export default function CarouselHero() {
     }
   };
 
+  // Loading screen
+  if (!imagesLoaded) {
+    return (
+      <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white flex items-center justify-center overflow-hidden">
+        {/* Loading background orbs */}
+        <div className="absolute top-0 left-0 w-72 h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-[#ffd7a8] opacity-20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        
+        <div className="text-center z-10">
+          <div className="w-16 h-16 border-4 border-[#4D5557] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-[#4D5557] text-lg font-semibold" style={{ fontFamily: 'Playfair Display' }}>
+            Loading your journey... {Math.round((loadedCount / 5) * 100)}%
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white overflow-hidden">
       {/* Animated Background Orbs */}
@@ -98,6 +145,7 @@ export default function CarouselHero() {
           left: '-30px',
           opacity: 1,
           animation: 'rotateSlow 60s linear infinite',
+          willChange: 'transform',
         }}
       />
 
@@ -113,6 +161,7 @@ export default function CarouselHero() {
           left: '50px',
           opacity: 1,
           animation: 'gentleFloat 4s ease-in-out infinite',
+          willChange: 'transform',
         }}
       />
 
@@ -146,21 +195,15 @@ export default function CarouselHero() {
             animation: 'fadeInUp 1s ease-out 0.4s both',
           }}
         >
-          
- 
-  Reconnect with your true self through Reiki, Astrology, and Yoga. 
-  Experience the harmony of energy, stars, and body to find peace and balance.
-
-
-</p>
-
-        
+          Reconnect with your true self through Reiki, Astrology, and Yoga. 
+          Experience the harmony of energy, stars, and body to find peace and balance.
+        </p>
 
         {/* Buttons */}
         <div className="absolute z-20 flex gap-6" style={{ top: '620px', left: '800px' }}>
           <button
             onClick={handleStartJourney}
-            className="px-8 py-4 text-2xl font-bold text-white bg-gradient-to-r from-[#32120b] to-[#4a1e16]  hover:from-[#4D5557] hover:to-[#5d6769] rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-3xl"
+            className="px-8 py-4 text-2xl font-bold text-white bg-gradient-to-r from-[#32120b] to-[#4a1e16] hover:from-[#4D5557] hover:to-[#5d6769] rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-3xl"
             style={{
               fontFamily: 'Playfair Display',
               animation: 'fadeInUp 1s ease-out 0.6s both',
@@ -195,6 +238,7 @@ export default function CarouselHero() {
                   style={{
                     ...position,
                     transformStyle: 'preserve-3d',
+                    willChange: 'transform, opacity',
                   }}
                 >
                   <div className="relative w-95 h-106 shadow-2xl rounded-3xl overflow-hidden group">
@@ -202,6 +246,8 @@ export default function CarouselHero() {
                       src={image.src}
                       alt={image.hoverText}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="eager"
+                      style={{ willChange: 'transform' }}
                     />
                     
                     {/* Shimmer effect */}
@@ -234,6 +280,7 @@ export default function CarouselHero() {
           src="/mandala.png"
           alt="Background Decorative Shape"
           className="absolute z-0 opacity-40"
+          loading="eager"
           style={{
             width: '350px',
             height: '350px',
@@ -241,6 +288,7 @@ export default function CarouselHero() {
             left: '50%',
             transform: 'translateX(-50%)',
             animation: 'rotateSlow 60s linear infinite',
+            willChange: 'transform',
           }}
         />
 
@@ -257,27 +305,6 @@ export default function CarouselHero() {
           <span>Celestials healing.</span>
         </h1>
 
-        {/* Mobile Navigation Buttons on Top */}
-        {/* <div className="flex justify-center gap-6 mb-6 relative z-10">
-          <button
-            onClick={goToPrev}
-            className="bg-white bg-opacity-70 text-[#4D5557] rounded-full p-2 shadow-lg transition-all hover:bg-opacity-100"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button
-            onClick={goToNext}
-            className="bg-white bg-opacity-70 text-[#4D5557] rounded-full p-2 shadow-lg transition-all hover:bg-opacity-100"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div> */}
-
         {/* Mobile Carousel with 3D tilt */}
         <div style={{ perspective: '1000px', animation: 'fadeInUp 1s ease-out 0.4s both' }} className="relative w-full max-w-sm h-80 mb-8 z-10 flex items-center justify-center">
           {images.map((image, index) => {
@@ -290,6 +317,7 @@ export default function CarouselHero() {
                 style={{
                   ...position,
                   transformStyle: 'preserve-3d',
+                  willChange: 'transform, opacity',
                 }}
               >
                 <div className="relative w-64 h-80 rounded-2xl overflow-hidden shadow-2xl group">
@@ -297,6 +325,8 @@ export default function CarouselHero() {
                     src={image.src}
                     alt={image.hoverText}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="eager"
+                    style={{ willChange: 'transform' }}
                   />
                   
                   {/* Shimmer effect */}
@@ -340,9 +370,8 @@ export default function CarouselHero() {
             animation: 'fadeInUp 1s ease-out 1s both',
           }}
         >
-           Reconnect with your true self through Reiki, Astrology, and Yoga. 
-  Experience the harmony of energy, stars, and body to find peace and balance.
-
+          Reconnect with your true self through Reiki, Astrology, and Yoga. 
+          Experience the harmony of energy, stars, and body to find peace and balance.
         </p>
 
         {/* Mobile Buttons */}
@@ -401,81 +430,6 @@ export default function CarouselHero() {
           }
         }
 
-        .pop-up {
-          opacity: 0;
-          transform: scale(0.5);
-          animation: popUp 0.6s ease-out forwards;
-        }
-
-        @keyframes popUp {
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        .slide-in {
-          opacity: 0;
-          transform: translateX(100%) rotate(10deg);
-          animation: slideIn 0.8s ease-out forwards;
-        }
-
-        @keyframes slideIn {
-          to {
-            transform: translateX(0) rotate(0deg);
-            opacity: 1;
-          }
-        }
-
-        .fade-in-up {
-          opacity: 0;
-          transform: translateY(30px);
-          animation: fadeInUp 1s ease-out forwards;
-        }
-
-        .floating {
-          animation: floating 6s ease-in-out infinite;
-        }
-
-        .floating-delayed {
-          animation: floating 6s ease-in-out infinite;
-          animation-delay: 3s;
-        }
-
-        .floating-slow {
-          animation: floating 8s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          50% {
-            transform: translateY(-20px) translateX(10px);
-          }
-        }
-
-        .gentle-float {
-          animation: gentleFloat 4s ease-in-out infinite;
-        }
-
-        .rotate-slow {
-          animation: rotateSlow 60s linear infinite;
-        }
-
-        .pulse-glow {
-          animation: pulseGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulseGlow {
-          0%, 100% {
-            box-shadow: 0 10px 40px rgba(77, 85, 87, 0.3);
-          }
-          50% {
-            box-shadow: 0 10px 60px rgba(77, 85, 87, 0.5);
-          }
-        }
-
         .shimmer {
           background: linear-gradient(
             120deg,
@@ -496,105 +450,6 @@ export default function CarouselHero() {
           }
         }
 
-        .image-float {
-          animation: imageFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes imageFloat {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-15px);
-          }
-        }
-
-        .image-float:nth-child(2) {
-          animation-delay: 1s;
-        }
-
-        .image-float:nth-child(3) {
-          animation-delay: 2s;
-        }
-
-        .enlarge-animation {
-          animation: enlargeAndFade 3s ease-out forwards;
-        }
-
-        @keyframes enlargeAndFade {
-          0% {
-            transform: translate(-50%, -50%) scale(0.5);
-            opacity: 0;
-          }
-          50% {
-            transform: translate(-50%, -50%) scale(1.2);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(20);
-            opacity: 0;
-          }
-        }
-
-        .enlarge-exit {
-          animation: shrinkToCenter 0.6s ease-in forwards;
-        }
-
-        @keyframes shrinkToCenter {
-          to {
-            transform: scale(0);
-            opacity: 0;
-          }
-        }
-
-        .pulse-ring {
-          animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulseRing {
-          0%, 100% {
-            opacity: 0.2;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.4;
-            transform: scale(1.05);
-          }
-        }
-
-        .click-pulse {
-          animation: clickPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes clickPulse {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 0.8;
-          }
-          50% {
-            transform: scale(1.2);
-            opacity: 1;
-          }
-        }
-
-        .animate-bounce-slow {
-          animation: bounceSlow 3s ease-in-out infinite;
-        }
-
-        @keyframes bounceSlow {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-
-        .rotate-slow,
-        .gentle-float {
-          opacity: 1 !important;
-        }
-
         button:hover {
           transform: translateY(-4px) scale(1.05);
         }
@@ -603,24 +458,7 @@ export default function CarouselHero() {
           box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
         }
 
-        .slide-in-mobile {
-          opacity: 0;
-          transform: translateY(30px) scale(0.9);
-          animation: slideInMobile 0.8s ease-out forwards;
-        }
-
-        @keyframes slideInMobile {
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
         @media (max-width: 1023px) {
-          .pop-up {
-            opacity: 0.9 !important;
-          }
-          
           .rotate-slow {
             animation: rotateSlow 40s linear infinite;
           }
