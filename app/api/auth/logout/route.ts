@@ -1,7 +1,29 @@
-import { NextResponse } from 'next/server';
+// app/api/auth/logout/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { connectToDatabase } from '@/lib/mongodb';
+import User from '@/models/User';
+import jwt from 'jsonwebtoken';
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
+    const token = request.cookies.get('auth-token')?.value;
+
+    if (token) {
+      try {
+        // Decode the token to get user ID
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+        
+        // Update user's logged in status
+        await connectToDatabase();
+        await User.findByIdAndUpdate(decoded.userId, {
+          currentlyLoggedIn: false,
+        });
+      } catch (error) {
+        console.error('Error updating user logout status:', error);
+        // Continue with logout even if update fails
+      }
+    }
+
     const response = NextResponse.json({
       success: true,
       message: 'Logged out successfully',

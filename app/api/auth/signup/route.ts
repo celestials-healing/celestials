@@ -1,10 +1,10 @@
+// app/api/auth/signup/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/models/User';
 import { hashPassword, generateTokens, generateVerificationToken } from '@/lib/auth';
 import { validateSignupData, SignupData } from '@/lib/validation';
 
-// Helper type guard for Mongo duplicate key errors
 function isMongoDuplicateKeyError(err: unknown): err is { code: number } {
   return typeof err === 'object' && err !== null && 'code' in err && typeof (err as { code: unknown }).code === 'number';
 }
@@ -52,7 +52,10 @@ export async function POST(request: NextRequest) {
       password: hashedPassword,
       subscribeNewsletter: body.subscribeNewsletter || false,
       verificationToken,
-      isVerified: false
+      isVerified: false,
+      currentlyLoggedIn: true,
+      actionType: 'signup',
+      actionTimestamp: new Date(),
     });
 
     await newUser.save();
@@ -81,8 +84,7 @@ export async function POST(request: NextRequest) {
     }, { status: 201 });
 
     response.cookies.delete('auth-token');
-response.cookies.delete('refresh-token');
-
+    response.cookies.delete('refresh-token');
 
     response.cookies.set('auth-token', accessToken, {
       httpOnly: true,

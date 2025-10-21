@@ -134,9 +134,7 @@ export default function ContactUs() {
               <h3 className="text-3xl font-bold text-[#4D5557]" style={{ fontFamily: 'Playfair Display' }}>
                 Email Us
               </h3>
-              <p className="text-[#4A1A11]">
-                Send us a message anytime
-              </p>
+              
               <a 
                 href="mailto:hello@celestialshealing.com" 
                 className="text-xl font-semibold text-[#4D5557] hover:text-[#32120b] transition-colors break-all"
@@ -155,9 +153,7 @@ export default function ContactUs() {
               <h3 className="text-3xl font-bold text-[#4D5557]" style={{ fontFamily: 'Playfair Display' }}>
                 Call Us
               </h3>
-              <p className="text-[#4A1A11]">
-                Available Mon-Fri, 9AM-6PM
-              </p>
+              
               <a 
                 href="tel:+7303089983" 
                 className="text-xl font-semibold text-[#4D5557] hover:text-[#32120b] transition-colors"
@@ -175,12 +171,12 @@ export default function ContactUs() {
               className="text-3xl md:text-4xl font-bold text-[#4D5557] mb-8 text-center"
               style={{ fontFamily: 'Playfair Display' }}
             >
-              Send Us a Message
+              Tell us about your experience
             </h2>
 
             {submitSuccess && (
               <div className="mb-6 bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
-                Thank you for your message! We&apos;ll get back to you soon.
+                Thank you for Sharing with us.
               </div>
             )}
 

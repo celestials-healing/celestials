@@ -1,3 +1,4 @@
+// app/api/auth/login/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/models/User';
@@ -49,8 +50,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update last login
+    // Update user login status and tracking
     user.lastLogin = new Date();
+    user.currentlyLoggedIn = true;
+    user.actionType = 'login';
+    user.actionTimestamp = new Date();
     await user.save();
 
     // Generate JWT tokens
@@ -71,7 +75,6 @@ export async function POST(request: NextRequest) {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        // fullName: user.fullName,
         subscribeNewsletter: user.subscribeNewsletter,
         isVerified: user.isVerified,
         lastLogin: user.lastLogin,
@@ -79,14 +82,13 @@ export async function POST(request: NextRequest) {
       token: accessToken,
     });
 
-    // ✅ Delete old cookies before setting new ones
-response.cookies.delete('auth-token');
-response.cookies.delete('refresh-token');
+    // Delete old cookies before setting new ones
+    response.cookies.delete('auth-token');
+    response.cookies.delete('refresh-token');
 
-
-    // Set HTTP-only cookies (longer expiry if "remember me" is checked)
-    const accessMaxAge = body.rememberMe ? 30 * 24 * 60 * 60 : 7 * 24 * 60 * 60; // 30 days or 7 days
-    const refreshMaxAge = body.rememberMe ? 90 * 24 * 60 * 60 : 30 * 24 * 60 * 60; // 90 days or 30 days
+    // Set HTTP-only cookies
+    const accessMaxAge = body.rememberMe ? 30 * 24 * 60 * 60 : 7 * 24 * 60 * 60;
+    const refreshMaxAge = body.rememberMe ? 90 * 24 * 60 * 60 : 30 * 24 * 60 * 60;
 
     response.cookies.set('auth-token', accessToken, {
       httpOnly: true,

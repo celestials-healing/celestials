@@ -12,7 +12,8 @@ import {
   UserIcon, 
   ChevronRightIcon,
   Bars3Icon,
-  XMarkIcon
+  XMarkIcon,
+  UsersIcon
 } from '@heroicons/react/24/outline';
 
 interface SidebarItemProps {
@@ -130,6 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, showToggleButton =
         
         <nav className="px-2 space-y-1">
           <SidebarItem icon={<ChartBarIcon className="w-6 h-6" />} label="Dashboard" href="/admin" active collapsed={collapsed} />
+          <SidebarItem icon={<UsersIcon className="w-6 h-6" />} label="Users" href="/admin/Users" collapsed={collapsed} />
           <SidebarItem icon={<ShoppingBagIcon className="w-6 h-6" />} label="Products" href="/admin/Products" collapsed={collapsed} />
           <SidebarItem icon={<InboxIcon className="w-6 h-6" />} label="Courses" href="/admin/Courses" collapsed={collapsed} />
           <SidebarItem icon={<DocumentTextIcon className="w-6 h-6" />} label="Payments" href="/admin/Payment" collapsed={collapsed} />
