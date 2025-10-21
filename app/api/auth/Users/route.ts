@@ -1,14 +1,12 @@
-// app/api/auth/users/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import User from '@/models/User';
+import User, { IUser } from '@/models/User'; // Make sure IUser is your User interface
 import { verifyToken } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
-    // Optional: Add authentication check
     const token = request.cookies.get('auth-token')?.value;
-    
+
     if (!token) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized - No token provided' },
@@ -16,10 +14,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verify the token (optional - remove if you want to allow unauthenticated access)
+    // Verify token
     try {
       verifyToken(token);
-    } catch (error) {
+    } catch {
       return NextResponse.json(
         { success: false, error: 'Unauthorized - Invalid token' },
         { status: 401 }
@@ -30,33 +28,29 @@ export async function GET(request: NextRequest) {
 
     // Fetch all users from MongoDB
     const users = await User.find({})
-      .select('-password -verificationToken -__v') // Exclude sensitive fields
-      .sort({ createdAt: -1 }) // Sort by newest first
-      .lean();
+      .select('-password -verificationToken -__v')
+      .sort({ createdAt: -1 })
+      .lean<IUser[]>(); // Type the returned data
 
-    // Transform the data to match the dashboard's expected format
-    const transformedUsers = users.map((user: any) => ({
+    const transformedUsers = users.map((user) => ({
       id: user._id.toString(),
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       isVerified: user.isVerified,
-      subscribeNewsletter: user.subscribeNewsletter || false,
+      subscribeNewsletter: user.subscribeNewsletter ?? false,
       lastLogin: user.lastLogin?.toISOString(),
       createdAt: user.createdAt.toISOString(),
-      // You'll need to add these fields to your User model if they don't exist
-      currentlyLoggedIn: user.currentlyLoggedIn || false,
-      actionType: user.actionType || 'signup',
-      actionTimestamp: user.actionTimestamp?.toISOString() || user.createdAt.toISOString(),
+      currentlyLoggedIn: user.currentlyLoggedIn ?? false,
+      actionType: user.actionType ?? 'signup',
+      actionTimestamp: user.actionTimestamp?.toISOString() ?? user.createdAt.toISOString(),
     }));
 
     return NextResponse.json({
       success: true,
       users: transformedUsers,
     });
-
   } catch {
-    
     return NextResponse.json(
       { success: false, error: 'Failed to fetch users' },
       { status: 500 }
