@@ -1,11 +1,28 @@
-// models/User.ts
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
+// Mongoose Document interface
 export interface IUser extends Document {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  subscribeNewsletter: boolean;
+  isVerified: boolean;
+  verificationToken?: string;
+  lastLogin?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  currentlyLoggedIn: boolean;
+  actionType: 'signup' | 'login';
+  actionTimestamp: Date;
+}
+
+// Plain object interface for lean queries
+export interface IUserLean {
+  _id: Types.ObjectId;
+  firstName: string;
+  lastName: string;
+  email: string;
   subscribeNewsletter: boolean;
   isVerified: boolean;
   verificationToken?: string;
@@ -77,6 +94,7 @@ const UserSchema = new Schema<IUser>(
 // Create index for email
 UserSchema.index({ email: 1 });
 
+// Export the Mongoose model
 const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
 
 export default User;

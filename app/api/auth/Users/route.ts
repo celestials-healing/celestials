@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import User, { IUser } from '@/models/User'; // Make sure IUser is your User interface
+import User, { IUserLean } from '@/models/User';
 import { verifyToken } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
@@ -8,29 +8,21 @@ export async function GET(request: NextRequest) {
     const token = request.cookies.get('auth-token')?.value;
 
     if (!token) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized - No token provided' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Unauthorized - No token provided' }, { status: 401 });
     }
 
-    // Verify token
     try {
       verifyToken(token);
     } catch {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized - Invalid token' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Unauthorized - Invalid token' }, { status: 401 });
     }
 
     await connectToDatabase();
 
-    // Fetch all users from MongoDB
     const users = await User.find({})
       .select('-password -verificationToken -__v')
       .sort({ createdAt: -1 })
-      .lean<IUser[]>(); // Type the returned data
+      .lean<IUserLean[]>(); // now _id is properly typed
 
     const transformedUsers = users.map((user) => ({
       id: user._id.toString(),
@@ -46,14 +38,8 @@ export async function GET(request: NextRequest) {
       actionTimestamp: user.actionTimestamp?.toISOString() ?? user.createdAt.toISOString(),
     }));
 
-    return NextResponse.json({
-      success: true,
-      users: transformedUsers,
-    });
+    return NextResponse.json({ success: true, users: transformedUsers });
   } catch {
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch users' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to fetch users' }, { status: 500 });
   }
 }
