@@ -4,7 +4,7 @@ import "./globals.css";
 import Footer from './components/Footer';
  import Navbar from './components/navbar';
  import { AuthProvider } from '@/lib/AuthContext';
- import Cursor from "./components/cursor";
+ import DesktopCursor from "./components/DesktopCursor";
 
 //  import MusicPlayer from "./components/MusicPlayer";
 
@@ -43,7 +43,7 @@ export default function RootLayout({
       >
     <AuthProvider>
         <Navbar/>
-        <Cursor />
+        <DesktopCursor />
         {children}
         {/* <MusicPlayer /> */}
         <Footer/>
