@@ -11,18 +11,8 @@ interface Particle {
   opacity: number;
 }
 
-interface RippleEffect {
-  x: number;
-  y: number;
-  radius: number;
-  maxRadius: number;
-  opacity: number;
-  startTime: number;
-}
-
 export default function FluidCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rippleCanvasRef = useRef<HTMLCanvasElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const mousePosRef = useRef({ x: 0, y: 0 });
   const prevMouseRef = useRef({ x: 0, y: 0 });
@@ -95,7 +85,7 @@ export default function FluidCursor() {
         y,
         vx: Math.cos(angle) * velocity * 0.5,
         vy: Math.sin(angle) * velocity * 0.5,
-        size: Math.random() * 16 + 6, // Increased from 12 + 4
+        size: Math.random() * 16 + 6,
         opacity: 1
       };
     };
@@ -111,7 +101,7 @@ export default function FluidCursor() {
 
       particleArray = particleArray.filter(p => p.opacity > 0);
 
-      if (particleArray.length > 50) { // Increased from 45
+      if (particleArray.length > 50) {
         particleArray = particleArray.slice(-50);
       }
 
@@ -124,10 +114,10 @@ export default function FluidCursor() {
           const dy = p2.y - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 90) { // Increased from 70
+          if (dist < 90) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(50, 18, 11, ${0.3 * (1 - dist / 90) * p.opacity})`; // Increased opacity
-            ctx.lineWidth = 2; // Increased from 1.5
+            ctx.strokeStyle = `rgba(50, 18, 11, ${0.3 * (1 - dist / 90) * p.opacity})`;
+            ctx.lineWidth = 2;
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
@@ -143,8 +133,8 @@ export default function FluidCursor() {
         p.opacity -= 0.018;
 
         const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        gradient.addColorStop(0, `rgba(50, 18, 11, ${0.6 * p.opacity})`); // Increased from 0.5
-        gradient.addColorStop(0.4, `rgba(77, 85, 87, ${0.4 * p.opacity})`); // Increased from 0.3
+        gradient.addColorStop(0, `rgba(50, 18, 11, ${0.6 * p.opacity})`);
+        gradient.addColorStop(0.4, `rgba(77, 85, 87, ${0.4 * p.opacity})`);
         gradient.addColorStop(1, `rgba(50, 18, 11, 0)`);
 
         ctx.beginPath();
@@ -165,97 +155,6 @@ export default function FluidCursor() {
     };
   }, []);
 
-  // Ripple/watery effect when hovering over text/images
-  useEffect(() => {
-    const canvas = rippleCanvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    let ripples: RippleEffect[] = [];
-    let animationId: number;
-    let lastRippleTime = 0;
-
-    const createRipple = (x: number, y: number) => {
-      const now = Date.now();
-      if (now - lastRippleTime < 120) return;
-      
-      lastRippleTime = now;
-      ripples.push({
-        x,
-        y,
-        radius: 0,
-        maxRadius: 70 + Math.random() * 40, // Increased from 50 + 30
-        opacity: 1,
-        startTime: now
-      });
-    };
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (isHovering) {
-        createRipple(mousePosRef.current.x, mousePosRef.current.y);
-      }
-
-      ripples = ripples.filter(r => r.opacity > 0);
-
-      ripples.forEach(ripple => {
-        const elapsed = Date.now() - ripple.startTime;
-        const progress = elapsed / 1200;
-
-        ripple.radius = ripple.maxRadius * progress;
-        ripple.opacity = 1 - progress;
-
-        for (let i = 0; i < 3; i++) {
-          const offsetRadius = ripple.radius - (i * 15); // Increased from 12
-          if (offsetRadius > 0) {
-            ctx.beginPath();
-            ctx.arc(ripple.x, ripple.y, offsetRadius, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(50, 18, 11, ${ripple.opacity * 0.3 * (1 - i * 0.3)})`; // Increased opacity
-            ctx.lineWidth = 3 - i * 0.5; // Increased from 2.5
-            ctx.stroke();
-
-            ctx.beginPath();
-            for (let angle = 0; angle < Math.PI * 2; angle += 0.15) {
-              const wave = Math.sin(angle * 3 + elapsed * 0.008) * 3; // Increased from 2.5
-              const x = ripple.x + Math.cos(angle) * (offsetRadius + wave);
-              const y = ripple.y + Math.sin(angle) * (offsetRadius + wave);
-              if (angle === 0) {
-                ctx.moveTo(x, y);
-              } else {
-                ctx.lineTo(x, y);
-              }
-            }
-            ctx.closePath();
-            ctx.strokeStyle = `rgba(77, 85, 87, ${ripple.opacity * 0.2 * (1 - i * 0.3)})`; // Increased opacity
-            ctx.lineWidth = 2; // Increased from 1.5
-            ctx.stroke();
-          }
-        }
-      });
-
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isHovering]);
-
   return (
     <>
       <style jsx global>{`
@@ -271,7 +170,7 @@ export default function FluidCursor() {
         }
       `}</style>
       
-      {/* Main fluid particles canvas - highest z-index */}
+      {/* Main fluid particles canvas */}
       <canvas
         ref={canvasRef}
         className="fixed top-0 left-0 pointer-events-none"
@@ -281,27 +180,17 @@ export default function FluidCursor() {
         }}
       />
       
-      {/* Ripple effects canvas */}
-      <canvas
-        ref={rippleCanvasRef}
-        className="fixed top-0 left-0 pointer-events-none"
-        style={{ 
-          mixBlendMode: 'multiply',
-          zIndex: 99999
-        }}
-      />
-      
-      {/* Cursor dot - enlarged */}
+      {/* Cursor dot - smaller */}
       <div
         ref={cursorDotRef}
         className={`cursor-dot fixed top-0 left-0 rounded-full pointer-events-none ${
-          isHovering ? 'w-9 h-9' : 'w-5 h-5'
+          isHovering ? 'w-4 h-4' : 'w-2 h-2'
         }`}
         style={{ 
           backgroundColor: '#32120b',
           boxShadow: isHovering 
-            ? '0 0 35px rgba(50, 18, 11, 0.8), 0 0 60px rgba(77, 85, 87, 0.4)' 
-            : '0 0 20px rgba(50, 18, 11, 0.6)',
+            ? '0 0 15px rgba(50, 18, 11, 0.6)' 
+            : '0 0 10px rgba(50, 18, 11, 0.4)',
           zIndex: 100001,
           transition: 'width 0.3s ease, height 0.3s ease, box-shadow 0.3s ease'
         }}
