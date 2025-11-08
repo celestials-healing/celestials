@@ -2,7 +2,12 @@
 import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const ExpandableCard = ({ title, description, isHighlighted }) => {
+
+interface ExpandableCardProps {
+  title: string;
+  description: string;
+  isHighlighted: boolean;
+}const ExpandableCard: React.FC<ExpandableCardProps> = ({ title, description, isHighlighted }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
