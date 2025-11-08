@@ -2,8 +2,9 @@
 import { useState, useEffect } from 'react';
 
 export default function WhyCelestialsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+ const [activeIndex, setActiveIndex] = useState<number>(0);
+const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
 
   const features = [
     {
