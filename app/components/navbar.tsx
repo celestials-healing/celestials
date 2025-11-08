@@ -108,14 +108,14 @@ const Navbar = () => {
               
               {/* Offerings Dropdown Content */}
               <div 
-                className={`absolute left-1/2 -translate-x-1/2 mt-2 w-screen max-w-6xl transition-all duration-300 ${
+                className={`fixed left-0 right-0 mt-2 transition-all duration-300  ${
                   isDropdownOpen === "offerings" 
                     ? "opacity-100 translate-y-0 pointer-events-auto" 
                     : "opacity-0 -translate-y-4 pointer-events-none"
                 }`} >
-                <div className="fixed left-0 right-0 mt-2 bg-gradient-to-b from-[#f6cf92] to-white border-t border-[#f6cf92]/30 shadow-2xl z-50">
-  <div className="max-w-7xl mx-auto px-8 py-12">
-    <div className="grid grid-cols-3 gap-10">
+                <div className="bg-gradient-to-b from-[#f6cf92] to-white border-t border-[#f6cf92]/30 shadow-2xl">
+                  <div className="max-w-7xl mx-auto px-8 py-12">
+                  <div className="grid grid-cols-3 gap-8">
       
       {/* Left Column - Core Offerings */}
       <div>
@@ -380,9 +380,8 @@ const Navbar = () => {
                     : "opacity-0 -translate-y-4 pointer-events-none"
                 }`}
               >
-                <div className="fixed left-0 right-0 mt-2 bg-gradient-to-b from-[#f6cf92] to-white border-t border-[#f6cf92]/30 shadow-2xl z-50">
-  <div className="max-w-7xl mx-auto px-8 py-12">
-    <div className="grid grid-cols-3 gap-10">
+                  <div className="bg-gradient-to-b from-[#f6cf92] to-white border border-[#f6cf92]/30 rounded-2xl shadow-2xl p-8">
+                  <div className="grid grid-cols-3 gap-8">
       
       {/* Left Column - Core Offerings */}
       <div>
@@ -552,7 +551,7 @@ const Navbar = () => {
       </div>
     </div>
   </div>
-</div>
+
             </div>
             </div>
 
@@ -578,9 +577,8 @@ const Navbar = () => {
                     : "opacity-0 -translate-y-4 pointer-events-none"
                 }`}
               >
-  <div className="fixed left-0 right-0 mt-2 bg-gradient-to-b from-[#f6cf92] to-white border-t border-[#f6cf92]/30 shadow-2xl z-50">
-    <div className="max-w-7xl mx-auto px-8 py-12">
-      <div className="grid grid-cols-3 gap-10">
+    <div className="bg-gradient-to-b from-[#f6cf92] to-white border border-[#f6cf92]/30 rounded-2xl shadow-2xl p-8">
+                  <div className="grid grid-cols-3 gap-8">
 
         {/* Left Column */}
         <div>
@@ -750,7 +748,7 @@ const Navbar = () => {
       </div>
     </div>
   </div>
-</div>
+
             </div>
             
             
