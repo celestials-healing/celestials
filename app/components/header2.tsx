@@ -109,7 +109,7 @@ export default function ModernHero() {
             <p className="text-lg lg:text-xl text-[#4A1A11] leading-relaxed max-w-xl">
               Reconnect with your true self through Reiki, Astrology, and Yoga. 
               Experience the harmony of energy, stars, and body to find peace and balance 
-              in your life's journey.
+              in your life&apos;s journey.
             </p>
 
             <button

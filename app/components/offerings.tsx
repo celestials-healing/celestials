@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const ExpandableCard = ({ title, description, isHighlighted }) => {
@@ -105,21 +105,21 @@ const products = [
 
 const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  // const [scrollProgress, setScrollProgress] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      // Extended scroll range to allow mandala to travel further down
-      const progress = Math.max(0, Math.min((scrollPosition - windowHeight * 0.2) / (windowHeight * 1.5), 1));
-      setScrollProgress(progress);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollPosition = window.scrollY;
+  //     const windowHeight = window.innerHeight;
+  //     // Extended scroll range to allow mandala to travel further down
+  //     const progress = Math.max(0, Math.min((scrollPosition - windowHeight * 0.2) / (windowHeight * 1.5), 1));
+  //     setScrollProgress(progress);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  //   handleScroll();
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % products.length);
