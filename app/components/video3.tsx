@@ -53,24 +53,24 @@ const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
 
 export default function WellnessLandingPage() {
   const [videoUrl] = useState<string>('');
-  const [scrollProgress, setScrollProgress] = useState(0);
+  // const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Track scroll for mandala animation - continues from offerings section
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      // Track from offerings section (2vh) through video section (3-4vh)
-      const sectionStart = windowHeight * 2.5;
-      const sectionLength = windowHeight * 1.5;
-      const progress = Math.max(0, Math.min((scrollPosition - sectionStart) / sectionLength, 1));
-      setScrollProgress(progress);
-    };
+  // // Track scroll for mandala animation - continues from offerings section
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollPosition = window.scrollY;
+  //     const windowHeight = window.innerHeight;
+  //     // Track from offerings section (2vh) through video section (3-4vh)
+  //     const sectionStart = windowHeight * 2.5;
+  //     const sectionLength = windowHeight * 1.5;
+  //     const progress = Math.max(0, Math.min((scrollPosition - sectionStart) / sectionLength, 1));
+  //     setScrollProgress(progress);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial calculation
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  //   handleScroll(); // Initial calculation
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
 
   
