@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { Play } from 'lucide-react';
 
 // Video player component that supports YouTube and Google Drive links
