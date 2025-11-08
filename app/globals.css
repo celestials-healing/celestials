@@ -23,6 +23,9 @@ body {
   color: var(--foreground);
 
 }
+body {
+  padding-top: 90px;
+}
 
 /* Petrona font declarations */
 @font-face {

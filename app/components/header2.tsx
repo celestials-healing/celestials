@@ -2,33 +2,41 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-interface ImageData {
-  src: string;
-  route: string;
-  hoverText: string;
-}
-
-export default function CarouselHero() {
+export default function ModernHero() {
   const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [loadedCount, setLoadedCount] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+   const [isMobile, setIsMobile] = useState(false);
 
-  const images: ImageData[] = [
-    { src: '/yoga.jpg', route: '/Yoga', hoverText: 'Explore Yoga' },
-    { src: '/image.jpg', route: '/courses', hoverText: 'Explore Reiki' },
-    { src: '/astro.jpg', route: '/Astrology', hoverText: 'Discover Astrology' },
-  ];
-
-  // Preload all images before showing animations
+  // Check if mobile
   useEffect(() => {
-    const imageUrls = [
-      ...images.map(img => img.src),
-      '/mandala.png',
-      '/women3.png'
-    ];
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
+  // Track scroll progress - extended to cover both sections
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      // Extended range: progress from 0 to 3 to fully reach carousel bottom
+      const progress = Math.min(scrollPosition / (windowHeight * 0.7), 3);
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Preload images
+  useEffect(() => {
+    const imageUrls = ['/mandala.png', '/women3.png'];
     let loaded = 0;
     const imageElements: HTMLImageElement[] = [];
 
@@ -60,66 +68,18 @@ export default function CarouselHero() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isAutoPlay || !imagesLoaded) return;
-    
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlay, imagesLoaded, images.length]);
-
   const handleStartJourney = () => {
     router.push('/about');
-  };
-
-  const handleImageClick = (image: ImageData) => {
-    router.push(image.route);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-    setIsAutoPlay(false);
-    setTimeout(() => setIsAutoPlay(true), 8000);
-  };
-
-  const getCardPosition = (index: number) => {
-    const position = (index - currentIndex + images.length) % images.length;
-    
-    if (position === 0) {
-      return { 
-        zIndex: 30, 
-        transform: 'translateX(0) scale(1) rotateY(0deg) rotateZ(0deg)', 
-        opacity: 1 
-      };
-    } else if (position === 1) {
-      return { 
-        zIndex: 10, 
-        transform: 'translateX(220px) scale(0.75) rotateY(-40deg) rotateZ(10deg)', 
-        opacity: 0.6 
-      };
-    } else {
-      return { 
-        zIndex: 10, 
-        transform: 'translateX(-220px) scale(0.75) rotateY(40deg) rotateZ(-10deg)', 
-        opacity: 0.6 
-      };
-    }
   };
 
   // Loading screen
   if (!imagesLoaded) {
     return (
       <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white flex items-center justify-center overflow-hidden">
-        {/* Loading background orbs */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-[#ffd7a8] opacity-20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        
         <div className="text-center z-10">
           <div className="w-16 h-16 border-4 border-[#4D5557] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-[#4D5557] text-lg font-semibold" style={{ fontFamily: 'Playfair Display' }}>
-            Loading your journey... {Math.round((loadedCount / 5) * 100)}%
+            Loading your journey... {Math.round((loadedCount / 2) * 100)}%
           </p>
         </div>
       </div>
@@ -127,288 +87,139 @@ export default function CarouselHero() {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white overflow-hidden">
-      {/* Animated Background Orbs */}
-      <div className="absolute top-0 left-0 w-32 h-32 md:w-48 lg:w-72 md:h-48 lg:h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute top-0 right-0 w-32 h-32 md:w-48 lg:w-72 md:h-48 lg:h-72 bg-[#f6d992] opacity-30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      <div className="absolute bottom-20 left-1/4 w-48 h-48 bg-[#ffd7a8] opacity-20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+    <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white overflow-visible">
+      {/* Subtle Background Gradient Orbs */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#ffd7a8] opacity-20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#f6d992] opacity-20 rounded-full blur-3xl" />
 
-      {/* Background Mandala - Desktop Only */}
-      <img
-        src="/mandala.png"
-        alt="Background Decorative Shape"
-        className="absolute z-0 hidden lg:block"
-        style={{
-          width: '730px',
-          height: '730px',
-          top: '0px',
-          left: '-30px',
-          opacity: 1,
-          animation: 'rotateSlow 60s linear infinite',
-          willChange: 'transform',
-        }}
-      />
+      <div className="container mx-auto px-6 lg:px-12 min-h-screen flex items-center relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center w-full py-20">
+          {/* Left Side - Text Content */}
+          <div className="space-y-6" style={{ animation: 'fadeInLeft 1s ease-out both' }}>
+            <h1
+              className="text-4xl lg:text-6xl xl:text-7xl font-bold text-[#4D5557] leading-tight"
+              style={{ fontFamily: 'Playfair Display' }}
+            >
+              Begin Your Healing Journey with{' '}
+              <span className="bg-gradient-to-r from-[#6a7577] to-[#4D5557] bg-clip-text text-transparent">
+                Celestials
+              </span>
+            </h1>
 
-      {/* Foreground Woman Image - Desktop Only */}
-      <img
-        src="/women3.png"
-        alt="Decorative Woman"
-        className="absolute z-10 hidden lg:block"
-        style={{
-          width: '489px',
-          height: '506px',
-          top: '140px',
-          left: '50px',
-          opacity: 1,
-          animation: 'gentleFloat 4s ease-in-out infinite',
-          willChange: 'transform',
-        }}
-      />
+            <p className="text-lg lg:text-xl text-[#4A1A11] leading-relaxed max-w-xl">
+              Reconnect with your true self through Reiki, Astrology, and Yoga. 
+              Experience the harmony of energy, stars, and body to find peace and balance 
+              in your life's journey.
+            </p>
 
-      {/* Desktop Layout */}
-      <div className="hidden lg:flex lg:flex-col min-h-screen">
-        {/* Heading */}
-        <h1
-          className="absolute z-20 text-5xl xl:text-5xl font-extrabold bg-gradient-to-r from-[#4D5557] via-[#6a7577] to-[#4D5557] bg-clip-text text-transparent leading-tight"
-          style={{
-            top: '475px',
-            left: '600px',
-            width: '1250px',
-            fontFamily: 'Playfair Display',
-            fontWeight: 900,
-            animation: 'fadeInUp 1s ease-out 0.2s both',
-          }}
-        >
-          &quot;Begin your healing journey 
-          with Celestials&quot;
-        </h1>
-
-        {/* Description */}
-        <p
-          className="absolute z-20 text-lg text-[#4A1A11] text-center"
-          style={{
-            top: '540px',
-            left: '605px',
-            width: '860px',
-            fontWeight: 500,
-            lineHeight: '1.8',
-            animation: 'fadeInUp 1s ease-out 0.4s both',
-          }}
-        >
-          Reconnect with your true self through Reiki, Astrology, and Yoga. 
-          Experience the harmony of energy, stars, and body to find peace and balance.
-        </p>
-
-        {/* Buttons */}
-        <div className="absolute z-20 flex gap-6" style={{ top: '620px', left: '800px' }}>
-          <button
-            onClick={handleStartJourney}
-            className="px-8 py-4 text-2xl font-bold text-white bg-gradient-to-r from-[#32120b] to-[#4a1e16] hover:from-[#4D5557] hover:to-[#5d6769] rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-3xl"
-            style={{
-              fontFamily: 'Playfair Display',
-              animation: 'fadeInUp 1s ease-out 0.6s both',
-            }}
-          >
-            Start Your Journey
-          </button>
-
-          <button
-            onClick={() => handleImageClick(images[currentIndex])}
-            className="px-8 py-4 text-2xl font-bold text-[#4D5557] bg-white border-2 border-[#4D5557] hover:bg-[#4D5557] hover:text-white rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-3xl"
-            style={{
-              fontFamily: 'Playfair Display',
-              animation: 'fadeInUp 1s ease-out 0.8s both',
-            }}
-          >
-            {images[currentIndex].hoverText}
-          </button>
-        </div>
-
-        {/* 3D Carousel Container */}
-        <div className="absolute z-20 right-110 top-10">
-          <div style={{ perspective: '1000px' }} className="relative w-full h-96 flex items-center justify-center">
-            {/* Carousel cards with 3D tilt */}
-            {images.map((image, index) => {
-              const position = getCardPosition(index);
-              return (
-                <div
-                  key={index}
-                  onClick={() => handleImageClick(image)}
-                  className="absolute transition-all duration-1000 ease-in-out cursor-pointer"
-                  style={{
-                    ...position,
-                    transformStyle: 'preserve-3d',
-                    willChange: 'transform, opacity',
-                  }}
-                >
-                  <div className="relative w-95 h-106 shadow-2xl rounded-3xl overflow-hidden group">
-                    <img
-                      src={image.src}
-                      alt={image.hoverText}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="eager"
-                      style={{ willChange: 'transform' }}
-                    />
-                    
-                    {/* Shimmer effect */}
-                    <div className="shimmer absolute inset-0 pointer-events-none" />
-                    
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#4D5557] via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
-                    
-                    {/* Hover text and button */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <span className="text-white font-bold text-2xl" style={{ fontFamily: 'Playfair Display' }}>
-                        {image.hoverText}
-                      </span>
-                      <button className="px-6 py-2 bg-white text-[#4D5557] font-bold rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:scale-110">
-                        Click to Explore
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            <button
+              onClick={handleStartJourney}
+              className="px-10 py-4 text-lg font-semibold text-white bg-gradient-to-r from-[#32120b] to-[#4a1e16] hover:from-[#4D5557] hover:to-[#5d6769] rounded-full shadow-xl transition-all duration-300 transform hover:scale-105"
+              style={{ fontFamily: 'Playfair Display' }}
+            >
+              Start Your Journey
+            </button>
           </div>
-        </div>
-      </div>
 
-      {/* Mobile Layout */}
-      <div className="lg:hidden flex flex-col items-center justify-center min-h-screen px-6 relative z-20 pb-20">
-        {/* Background Mandala - Mobile */}
-        <img
-          src="/mandala.png"
-          alt="Background Decorative Shape"
-          className="absolute z-0 opacity-40"
-          loading="eager"
-          style={{
-            width: '350px',
-            height: '350px',
-            top: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            animation: 'rotateSlow 60s linear infinite',
-            willChange: 'transform',
-          }}
-        />
-
-        {/* Mobile Heading */}
-        <h1
-          className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#4D5557] to-[#6a7577] bg-clip-text text-transparent leading-tight text-center mb-6 mt-20 relative z-10"
-          style={{
-            fontFamily: 'Playfair Display',
-            fontWeight: 900,
-            animation: 'fadeInUp 1s ease-out 0.2s both',
-          }}
-        >
-          Welcome to<br />
-          <span>Celestials healing.</span>
-        </h1>
-
-        {/* Mobile Carousel with 3D tilt */}
-        <div style={{ perspective: '1000px', animation: 'fadeInUp 1s ease-out 0.4s both' }} className="relative w-full max-w-sm h-80 mb-8 z-10 flex items-center justify-center">
-          {images.map((image, index) => {
-            const position = getCardPosition(index);
-            return (
-              <div
-                key={index}
-                onClick={() => handleImageClick(image)}
-                className="absolute transition-all duration-1000 ease-in-out cursor-pointer"
-                style={{
-                  ...position,
-                  transformStyle: 'preserve-3d',
+   {/* Right Side - Images with rotating mandala behind */}
+<div
+  className="relative flex items-center justify-center"
+  style={{ animation: 'fadeInRight 1s ease-out both' }}
+>
+  <div className="relative w-full flex items-center justify-center">
+    {/* Rotating Mandala Background */}
+    <div
+      className="absolute w-[700px] h-[700px] lg:w-[800px] lg:h-[800px] pointer-events-none"
+      style={
+        isMobile
+          ? {
+              position: 'absolute',
+              opacity: 0.3,
+              transform: 'translateX(0) translateY(0) scale(0.8)',
+              transition: 'none',
+              willChange: 'auto',
+              zIndex: 'auto',
+              width: '400px',
+              height: '400px',
+              right: 'auto',
+              bottom: 'auto',
+            }
+          : {
+         
+              position: scrollProgress > 1.5 ? 'fixed' : 'absolute',
+                  opacity: scrollProgress > 3 ? Math.max(0.4, 1 - (scrollProgress - 3) * 0.3) : Math.max(0.4, 1 - scrollProgress * 0.2),
+                  transform: scrollProgress <= 1.5
+                    ? `
+                      translateX(${scrollProgress * -80}%) 
+                      translateY(${scrollProgress * 100}vh)
+                      scale(${1 - scrollProgress * 0.3})
+                    `
+                    : scrollProgress <= 2.5
+                    ? `
+                      translateX(${-120 + (scrollProgress - 1.5) * 150}%) 
+                      translateY(${150 - (scrollProgress - 1.5) * 20}vh)
+                      scale(${0.55 + (scrollProgress - 1.5) * 0.15})
+                      rotate(${(scrollProgress - 1.5) * 200}deg)
+                    `
+                    : `
+                      translateX(${40 + (scrollProgress - 2.5) * -5}%) 
+                      translateY(${210 + (scrollProgress - 2.5) * 10}vh)
+                      scale(0.7)
+                      rotate(${200 + (scrollProgress - 2.5) * 100}deg)
+                    `,
+                  transition: 'all 0.15s ease-out',
                   willChange: 'transform, opacity',
+                  zIndex: scrollProgress > 1.5 ? 1 : 'auto',
+                  right: scrollProgress > 2.5 ? `${-5 + (scrollProgress - 2.5) * -2}%` : (scrollProgress > 1.5 ? `${Math.min((scrollProgress - 1.5) * 50, 0)}%` : 'auto'),
+                  bottom: scrollProgress > 2.5 ? `${-10 + (scrollProgress - 2.5) * -3}%` : (scrollProgress > 1.5 ? `${Math.min((scrollProgress - 1.5) * 30, 0)}%` : 'auto'),
                 }}
               >
-                <div className="relative w-64 h-80 rounded-2xl overflow-hidden shadow-2xl group">
-                  <img
-                    src={image.src}
-                    alt={image.hoverText}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    loading="eager"
-                    style={{ willChange: 'transform' }}
-                  />
-                  
-                  {/* Shimmer effect */}
-                  <div className="shimmer absolute inset-0 pointer-events-none" />
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#4D5557] via-transparent to-transparent opacity-40 group-hover:opacity-70 transition-opacity duration-500" />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                    <span className="text-white font-bold text-lg text-center px-4" style={{ fontFamily: 'Playfair Display' }}>
-                      {image.hoverText}
-                    </span>
-                    <button className="px-5 py-2 bg-white text-[#4D5557] font-semibold rounded-full text-sm hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
-                      Explore Now
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                <img
+                  src="/mandala.png"
+                  alt="Mandala"
+                  className="w-full h-full"
+                  style={{
+                    animation: 'rotateSlow 60s linear infinite',
+                    willChange: 'transform',
+                  }}
+                />
+    </div>
 
-        {/* Mobile dots */}
-        <div className="flex justify-center gap-2 mb-8 relative z-10">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 rounded-full ${
-                currentIndex === index
-                  ? 'bg-[#4D5557] w-8 h-2'
-                  : 'bg-[#4D5557] bg-opacity-40 w-2 h-2'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Description */}
-        <p
-          className="text-base md:text-lg text-[#4A1A11] text-center mb-8 leading-relaxed bg-white bg-opacity-80 p-6 rounded-2xl backdrop-blur-sm relative z-10 shadow-lg max-w-md"
-          style={{
-            fontWeight: 500,
-            animation: 'fadeInUp 1s ease-out 1s both',
-          }}
-        >
-          Reconnect with your true self through Reiki, Astrology, and Yoga. 
-          Experience the harmony of energy, stars, and body to find peace and balance.
-        </p>
-
-        {/* Mobile Buttons */}
-        <div className="flex flex-col gap-4 items-center w-full max-w-md px-4">
-          <button
-            onClick={handleStartJourney}
-            className="w-full px-8 py-4 text-lg md:text-xl font-semibold text-white bg-gradient-to-r from-[#4D5557] to-[#5d6769] hover:from-[#32120b] hover:to-[#4a1e16] rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 relative z-10"
-            style={{
-              fontFamily: 'Playfair Display',
-              animation: 'fadeInUp 1s ease-out 1.2s both',
-            }}
-          >
-            Start Your Journey
-          </button>
-
-          <button
-            onClick={() => handleImageClick(images[currentIndex])}
-            className="w-full px-8 py-4 text-lg md:text-xl font-semibold text-[#4D5557] bg-white border-2 border-[#4D5557] hover:bg-[#4D5557] hover:text-white rounded-full shadow-2xl transition-all duration-500 transform hover:scale-105 relative z-10"
-            style={{
-              fontFamily: 'Playfair Display',
-              animation: 'fadeInUp 1s ease-out 1.4s both',
-            }}
-          >
-            {images[currentIndex].hoverText}
-          </button>
+    {/* Main Woman Image */}
+    <img
+      src="/women3.png"
+      alt="Spiritual Healing"
+      className="relative z-10 w-[500px] h-auto lg:w-[600px]"
+      style={{
+        animation: 'gentleFloat 4s ease-in-out infinite',
+        willChange: 'transform',
+      }}
+    />
+  </div>
+</div>
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes fadeInUp {
+        @keyframes fadeInLeft {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateX(-30px);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
           }
         }
 
@@ -426,41 +237,30 @@ export default function CarouselHero() {
             transform: translateY(0px);
           }
           50% {
-            transform: translateY(-10px);
+            transform: translateY(-15px);
           }
         }
 
-        .shimmer {
-          background: linear-gradient(
-            120deg,
-            transparent,
-            rgba(255, 255, 255, 0.4),
-            transparent
-          );
-          transform: translateX(-100%);
-        }
-
-        .group:hover .shimmer {
-          animation: shimmer 2s ease-in-out;
-        }
-
-        @keyframes shimmer {
+        @keyframes popIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.5) translateY(20px);
+          }
+          70% {
+            transform: scale(1.05) translateY(-5px);
+          }
           100% {
-            transform: translateX(100%);
+            opacity: 1;
+            transform: scale(1) translateY(0);
           }
         }
 
-        button:hover {
-          transform: translateY(-4px) scale(1.05);
-        }
-
-        .shadow-3xl {
-          box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 1023px) {
-          .rotate-slow {
-            animation: rotateSlow 40s linear infinite;
+        @keyframes floatTestimonial1 {
+          0%, 100% {
+            transform: translateY(0px) translateX(0px);
+          }
+          50% {
+            transform: translateY(-12px) translateX(-5px);
           }
         }
       `}</style>

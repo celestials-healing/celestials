@@ -15,6 +15,8 @@ import ProductCarousel from './components/offerings';
 // import NewsletterSubscription from './components/newsletter';
 import Header2 from './components/header2';
 import Line from './components/line';
+import Video3 from './components/video3';
+import ImageCaurosel from './components/imageChange'; 
 
 // Initialize the font
 
@@ -26,14 +28,15 @@ export default function Home() {
     <div>
      <Header2 />
       {/* <Header /> */}
-      <Layout2 />
-      <Line />
       <ProductCarousel />
+      {/* <Layout2 /> */}
+      <Line />
+      <Video3 />
       {/* <Layout /> */}
-     
+     <ImageCaurosel />
       {/* <EnrollPage />
       <Team /> */}
-      <Testimonial />
+      {/* <Testimonial /> */}
       {/* <Layout3 />
       <FAQs />  */}
       {/* <ContactForm />   */}
