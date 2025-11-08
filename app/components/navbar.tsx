@@ -28,12 +28,18 @@ import Image from "next/image";
 import { useAuth } from "@/lib/AuthContext"; // Adjust path as needed
 
 const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isResourceOpen, setIsResourceOpen] = useState(false);
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const toggleDropdown = (name: string) => {
+     setIsDropdownOpen(prev => (prev === name ? null : name));
+  };
+
+  const closeAllDropdowns = () => {
+     setIsDropdownOpen(null);
+  };
 
   // Get auth state from context
   const { user, isLoading, isLoggedIn, isAdmin, logout } = useAuth();
@@ -41,7 +47,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
+        setIsDropdownOpen(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -88,14 +94,25 @@ const Navbar = () => {
             {/* Desktop Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
-                className="flex items-center text-lg font-medium text-[#4D5557] hover:text-[#4A1A11] transition-colors"
-                onClick={() => setIsDropdownOpen((prev) => !prev)}
+                className="flex items-center text-lg font-medium text-[#4D5557] hover:text-[#4A1A11] transition-colors gap-1"
+                onClick={() => toggleDropdown("offerings")}
               >
                 Offerings
-                <ChevronDown className={`ml-1 w-4 h-4 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
+                <ChevronDown 
+                  size={16} 
+                  className={`transform transition-transform duration-300 ${
+                    isDropdownOpen === "offerings" ? "rotate-180" : ""
+                  }`}
+                />
               </button>
               
-              {isDropdownOpen && (
+              {/* Offerings Dropdown Content */}
+              <div 
+                className={`absolute left-1/2 -translate-x-1/2 mt-2 w-screen max-w-6xl transition-all duration-300 ${
+                  isDropdownOpen === "offerings" 
+                    ? "opacity-100 translate-y-0 pointer-events-auto" 
+                    : "opacity-0 -translate-y-4 pointer-events-none"
+                }`} >
                 <div className="fixed left-0 right-0 mt-2 bg-gradient-to-b from-[#f6cf92] to-white border-t border-[#f6cf92]/30 shadow-2xl z-50">
   <div className="max-w-7xl mx-auto px-8 py-12">
     <div className="grid grid-cols-3 gap-10">
@@ -106,7 +123,7 @@ const Navbar = () => {
         <Link
           href="/reiki"
           className="block group"
-          onClick={() => setIsDropdownOpen(false)}
+           onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -130,7 +147,7 @@ const Navbar = () => {
         <Link
           href="/yoga"
           className="block group mt-4"
-          onClick={() => setIsDropdownOpen(false)}
+           onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6d992] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -154,7 +171,7 @@ const Navbar = () => {
         <Link
           href="/astrology"
           className="block group mt-4"
-          onClick={() => setIsDropdownOpen(false)}
+           onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6cf92] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -178,7 +195,7 @@ const Navbar = () => {
         <Link
           href="/pujas"
           className="block group mt-4"
-          onClick={() => setIsDropdownOpen(false)}
+           onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -205,7 +222,7 @@ const Navbar = () => {
         <Link
           href="/shop"
           className="block group"
-          onClick={() => setIsDropdownOpen(false)}
+         onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6d992] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -231,7 +248,7 @@ const Navbar = () => {
         <Link
           href="/experience-centres"
           className="block group mt-4"
-          onClick={() => setIsDropdownOpen(false)}
+           onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6d992] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -254,7 +271,7 @@ const Navbar = () => {
         <Link
           href="/community"
           className="block group"
-          onClick={() => setIsDropdownOpen(false)}
+           onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -278,7 +295,7 @@ const Navbar = () => {
         <Link
           href="/corporate"
           className="block group mt-4"
-          onClick={() => setIsDropdownOpen(false)}
+          onClick={closeAllDropdowns}
         >
           <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
             <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6d992] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -326,7 +343,7 @@ const Navbar = () => {
           <Link
             href="/about"
             className="relative z-10 flex items-center text-white font-semibold hover:gap-3 gap-2 transition-all mt-6 group bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg w-fit"
-            onClick={() => setIsDropdownOpen(false)}
+             onClick={closeAllDropdowns}
             style={{ fontFamily: 'Playfair Display' }}
           >
             Learn More
@@ -338,19 +355,31 @@ const Navbar = () => {
   </div>
 </div>
 
-              )}
+        </div>
             </div>
 
             <div className="relative" ref={dropdownRef}>
               <button
-                className="flex items-center text-lg font-medium text-[#4D5557] hover:text-[#4A1A11] transition-colors"
-                onClick={() => setIsResourceOpen((prev) => !prev)}
+                className="flex items-center text-lg font-medium text-[#4D5557] hover:text-[#4A1A11] transition-colors gap-1"
+                onClick={() => toggleDropdown("resources")}
               >
                 Resources
-                <ChevronDown className={`ml-1 w-4 h-4 transition-transform ${isResourceOpen ? "rotate-180" : ""}`} />
+                <ChevronDown 
+                  size={16} 
+                  className={`transform transition-transform duration-300 ${
+                    isDropdownOpen === "resources" ? "rotate-180" : ""
+                  }`}
+                />
               </button>
               
-              {isResourceOpen && (
+              {/* Resources Dropdown Content */}
+              <div 
+                className={`absolute left-1/2 -translate-x-1/2 mt-2 w-screen max-w-6xl transition-all duration-300 ${
+                  isDropdownOpen === "resources" 
+                    ? "opacity-100 translate-y-0 pointer-events-auto" 
+                    : "opacity-0 -translate-y-4 pointer-events-none"
+                }`}
+              >
                 <div className="fixed left-0 right-0 mt-2 bg-gradient-to-b from-[#f6cf92] to-white border-t border-[#f6cf92]/30 shadow-2xl z-50">
   <div className="max-w-7xl mx-auto px-8 py-12">
     <div className="grid grid-cols-3 gap-10">
@@ -361,7 +390,7 @@ const Navbar = () => {
   <Link
     href="/blogs"
     className="block group"
-    onClick={() => setIsDropdownOpen(false)}
+   onClick={closeAllDropdowns}
   >
     <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
       <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -385,7 +414,7 @@ const Navbar = () => {
   <Link
     href="/music"
     className="block group mt-4"
-    onClick={() => setIsDropdownOpen(false)}
+   onClick={closeAllDropdowns}
   >
     <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
       <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6d992] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -409,7 +438,7 @@ const Navbar = () => {
   <Link
     href="/reports"
     className="block group mt-4"
-    onClick={() => setIsDropdownOpen(false)}
+    onClick={closeAllDropdowns}
   >
     <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
       <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -439,7 +468,7 @@ const Navbar = () => {
   <Link
     href="/webinars"
     className="block group mt-4"
-    onClick={() => setIsDropdownOpen(false)}
+   onClick={closeAllDropdowns}
   >
     <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
       <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6d992] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -464,7 +493,7 @@ const Navbar = () => {
   <Link
     href="/locate-us"
     className="block group mt-4"
-    onClick={() => setIsDropdownOpen(false)}
+    onClick={closeAllDropdowns}
   >
     <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
       <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -513,7 +542,7 @@ const Navbar = () => {
           <Link
             href="/about"
             className="relative z-10 flex items-center text-white font-semibold hover:gap-3 gap-2 transition-all mt-6 group bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg w-fit"
-            onClick={() => setIsDropdownOpen(false)}
+           onClick={closeAllDropdowns}
             style={{ fontFamily: 'Playfair Display' }}
           >
             Learn More
@@ -524,18 +553,31 @@ const Navbar = () => {
     </div>
   </div>
 </div>
-              )}
+            </div>
             </div>
 
                <div className="relative" ref={dropdownRef}>
-              <button
-                className="flex items-center text-lg font-medium text-[#4D5557] hover:text-[#4A1A11] transition-colors"
-                onClick={() => setIsAboutOpen((prev) => !prev)}
+             <button
+                className="flex items-center text-lg font-medium text-[#4D5557] hover:text-[#4A1A11] transition-colors gap-1"
+                onClick={() => toggleDropdown("about")}
               >
                 About Us
-                <ChevronDown className={`ml-1 w-4 h-4 transition-transform ${isAboutOpen ? "rotate-180" : ""}`} />
+                <ChevronDown 
+                  size={16} 
+                  className={`transform transition-transform duration-300 ${
+                    isDropdownOpen === "about" ? "rotate-180" : ""
+                  }`}
+                />
               </button>
-              {isAboutOpen && (
+              
+              {/* About Dropdown Content */}
+              <div 
+                className={`absolute left-1/2 -translate-x-1/2 mt-2 w-screen max-w-6xl transition-all duration-300 ${
+                  isDropdownOpen === "about" 
+                    ? "opacity-100 translate-y-0 pointer-events-auto" 
+                    : "opacity-0 -translate-y-4 pointer-events-none"
+                }`}
+              >
   <div className="fixed left-0 right-0 mt-2 bg-gradient-to-b from-[#f6cf92] to-white border-t border-[#f6cf92]/30 shadow-2xl z-50">
     <div className="max-w-7xl mx-auto px-8 py-12">
       <div className="grid grid-cols-3 gap-10">
@@ -546,7 +588,7 @@ const Navbar = () => {
           <Link
             href="/about"
             className="block group"
-            onClick={() => setIsDropdownOpen(false)}
+             onClick={closeAllDropdowns}
           >
             <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
               <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -570,7 +612,7 @@ const Navbar = () => {
           <Link
             href="/contact"
             className="block group mt-4"
-            onClick={() => setIsDropdownOpen(false)}
+            onClick={closeAllDropdowns}
           >
             <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
               <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6d992] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -597,7 +639,7 @@ const Navbar = () => {
           <Link
             href="/experts"
             className="block group"
-            onClick={() => setIsDropdownOpen(false)}
+            onClick={closeAllDropdowns}
           >
             <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
               <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -621,7 +663,7 @@ const Navbar = () => {
           <Link
             href="/press"
             className="block group mt-4"
-            onClick={() => setIsDropdownOpen(false)}
+             onClick={closeAllDropdowns}
           >
             <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
               <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#ffd7a8] to-[#f6d992] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -643,7 +685,7 @@ const Navbar = () => {
            <Link
             href="/careers"
             className="block group"
-            onClick={() => setIsDropdownOpen(false)}
+             onClick={closeAllDropdowns}
           >
             <div className="flex items-start space-x-4 p-4 rounded-xl hover:bg-[#f6cf92]/10 transition-all duration-300">
               <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#f6cf92] to-[#ffd7a8] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
@@ -708,7 +750,7 @@ const Navbar = () => {
       </div>
     </div>
   </div>
-)}
+</div>
             </div>
             
             
