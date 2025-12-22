@@ -76,7 +76,7 @@ const Navbar = () => {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const ComingSoonLink = ({ children, icon: Icon, title, description }: any) => (
+  const ComingSoonLink = ({ icon: Icon, title, description }: any) => (
     <div className="block group cursor-not-allowed opacity-60">
       <div className="flex items-start space-x-4 p-4 rounded-xl">
         <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-400 rounded-xl flex items-center justify-center shadow-md">

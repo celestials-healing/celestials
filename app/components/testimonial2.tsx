@@ -86,10 +86,11 @@ export default function TestimonialsPage() {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
-  const goToSlide = (index) => {
-    setIsAutoPlaying(false);
-    setCurrentIndex(index);
-  };
+ const goToSlide = (index: number) => {
+  setIsAutoPlaying(false);
+  setCurrentIndex(index);
+};
+
 
   return (
     <div className="relative h-[500px] bg-gradient-to-b from-[#f6cf92] to-white">
@@ -146,7 +147,7 @@ export default function TestimonialsPage() {
 
                     {/* Testimonial Text */}
                     <p className="text-[#4A1A11] leading-relaxed mb-6">
-                      "{testimonial.text}"
+                      &ldquo;{testimonial.text}&rdquo;
                     </p>
 
                     {/* Author Info */}

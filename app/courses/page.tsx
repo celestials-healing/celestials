@@ -1,9 +1,9 @@
 // app/page.tsx
 import Header3 from '../components/header3';
-import Layout from '../components/layout';
+// import Layout from '../components/layout';
 // import EnrollPage from '../components/enroll';
 // import Team from '../components/team';
-import WellnessLandingPage from '../components/video';
+// import WellnessLandingPage from '../components/video';
 // import Enroll2 from '../components/courses';
 // import CourseSection from '../components/CourseSection';
 import ProductsSection from '../products/ProductsSection'; // ✅ Import

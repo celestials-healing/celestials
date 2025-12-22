@@ -1,5 +1,5 @@
 "use client"
-import { useState} from 'react';
+// import { useState} from 'react';
 import { Play } from 'lucide-react';
 
 // Video player component that supports YouTube and Google Drive links
@@ -52,7 +52,7 @@ const VideoPlayer = ({ videoUrl }: { videoUrl: string }) => {
 };
 
 export default function WellnessLandingPage() {
-  const [videoUrl] = useState<string>('');
+  // const [videoUrl] = useState<string>('');
   // const [scrollProgress, setScrollProgress] = useState(0);
 
   // // Track scroll for mandala animation - continues from offerings section
