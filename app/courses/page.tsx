@@ -10,6 +10,9 @@ import ProductsSection from '../products/ProductsSection'; // ✅ Import
 import { Product } from '../types/product';
 // import { Product as CourseProduct } from "../types/product2";
 import Courses from "./Courses";
+import Video4 from '../components/video4';
+import Faq from '../components/faq';
+import Testimonial2 from '../components/testimonial2';
 
 // ✅ Fetch products server-side
 async function getProducts(): Promise<Product[]> {
@@ -36,21 +39,22 @@ export default async function Home() {
   return (
     <div>
       <Header3 />
-      <Layout />
+      <Video4 />
+      {/* <Layout /> */}
       {/* <EnrollPage /> */}
       {/* <CourseSection products={courses} 
       category="Reiki"
       title="Reiki Offerings" /> */}
       <Courses />
-
-      <WellnessLandingPage />
+        <Testimonial2 />
+      {/* <WellnessLandingPage /> */}
       {/* 🔹 Product Section */}
           <ProductsSection 
       products={products} 
       category="Reiki"
       title="Reiki Products"
     />
-
+      <Faq />
       
       
      

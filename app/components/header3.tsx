@@ -10,48 +10,57 @@ export const metadata = {
   description: 'Reiki certification empowers you to harness healing energy for personal and professional growth.',
 };
 
-export default function header3() {
+export default function Header3() {
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-[#f6cf92] to-white overflow-hidden">
-    <div className={`w-full min-h-screen ${inter.className}`}>
-      <main className="flex flex-col lg:flex-row items-center justify-between px-4 py-12 md:px-16 max-w-7xl mx-auto text-[#4D5557]">
-        {/* Left Content */}
-        <div className="w-full lg:w-3/5 pr-0 lg:pr-12 mb-8 lg:mb-0">
-          <h1 className="font-celestial text-6xl  font-bold mb-6 leading-tight" style={{ fontFamily: 'Playfair Display' }}>
-            Transform Your Life: Reiki Healing
-          </h1>
-          
-          <p className="text-lg mb-12 text-[#4A1A11]">
-          Reiki is a gentle, hands-on energy healing technique that restores balance and promotes natural healing in the body. Originating from Japan, Reiki works by channeling universal life force energy to remove energy blockages, reduce stress, and support physical, emotional, and spiritual well-being.
-          </p>
-          <p className="text-lg mb-12 text-[#4A1A11]">
-During a session, the practitioner lightly places their hands on or near the body, helping you relax deeply while your body activates its natural healing process. Reiki can ease pain, calm the mind, boost immunity, and bring a deep sense of peace and clarity.
-</p>
-<p className="text-lg mb-12 text-[#4A1A11]">
-It’s safe, non-invasive, and suitable for people of all ages.
-          </p>
-          
-         
-        </div>
-        
-        {/* Right Image */}
-        <div className="w-full lg:w-2/5 relative">
-  <div className="gradient-border-wrapper aspect-[3/5] w-lg mx-auto rounded-full p-1">
-    <div className="relative w-full h-full rounded-full overflow-hidden">
-      <Image
-        src="/image(1).jpg"
-        alt="Meditation setup with Buddha statue, sage bundle, singing bowl, and crystals"
-        fill
-        className="rounded-full object-cover"
-        priority
-      />
-    </div>
-  </div>
-</div>
+      <div className={`w-full min-h-screen ${inter.className}`}>
+        <main className="flex flex-col lg:flex-row items-center justify-between text-[#4D5557]">
 
+          {/* Left Content */}
+          <div className="w-full lg:w-3/5 pr-0 lg:pr-12 mb-8 lg:mb-0 px-8 lg:px-16 max-w-7xl mx-auto">
+            <h1
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#4D5557] leading-tight"
+              style={{ fontFamily: 'Playfair Display' }}
+            >
+              Reiki – The Gift of{' '}
+              <span className="bg-gradient-to-r from-[#6a7577] to-[#4D5557] bg-clip-text text-transparent">
+                Presence
+              </span>
+            </h1>
 
-      </main>
-    </div>
+            <p className="text-xl lg:text-2xl text-[#4A1A11] leading-relaxed max-w-2xl font-light mt-6">
+              Wherever you are, soft light surrounds you. Offering space to breathe, to heal & to simply be held gently in caring hands.
+            </p>
+             <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <button 
+                className="px-10 py-4 text-lg font-semibold text-white bg-gradient-to-r from-[#32120b] to-[#4a1e16] hover:from-[#4D5557] hover:to-[#5d6769] rounded-full shadow-xl transition-all duration-300 transform hover:scale-105"
+                style={{ fontFamily: 'Playfair Display' }}
+              >
+                Feel it Today
+              </button>
+              
+              <button 
+                className="px-10 py-4 text-lg font-semibold text-[#4D5557] bg-white/80 hover:bg-white border-2 border-[#4D5557] rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                style={{ fontFamily: 'Playfair Display' }}
+              >
+                Get Yourself Healed Today
+              </button>
+            </div>
+          </div>
+
+          {/* Right Image */}
+          <div className="w-full lg:w-3/5 relative h-[60vh] lg:h-screen">
+            <Image
+              src="/image(1).jpg"
+              alt="Meditation setup with Buddha statue, sage bundle, singing bowl, and crystals"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+
+        </main>
+      </div>
     </div>
   );
 }

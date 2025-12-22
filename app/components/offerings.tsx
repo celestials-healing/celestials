@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 
@@ -7,7 +8,9 @@ interface ExpandableCardProps {
   title: string;
   description: string;
   isHighlighted: boolean;
-}const ExpandableCard: React.FC<ExpandableCardProps> = ({ title, description, isHighlighted }) => {
+}
+
+const ExpandableCard: React.FC<ExpandableCardProps> = ({ title, description, isHighlighted }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -110,21 +113,7 @@ const products = [
 
 const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  // const [scrollProgress, setScrollProgress] = useState(0);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollY;
-  //     const windowHeight = window.innerHeight;
-  //     // Extended scroll range to allow mandala to travel further down
-  //     const progress = Math.max(0, Math.min((scrollPosition - windowHeight * 0.2) / (windowHeight * 1.5), 1));
-  //     setScrollProgress(progress);
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-  //   handleScroll();
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
+  const router = useRouter();
 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % products.length);
@@ -135,10 +124,8 @@ const Carousel = () => {
   };
 
   const handleExplore = () => {
-    console.log(`Exploring ${products[activeIndex].name}`);
+    router.push(products[activeIndex].route);
   };
-
- 
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-white to-[#f6cf92] overflow-hidden">
